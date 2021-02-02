@@ -1,0 +1,48 @@
+<aura:component controller="MyBadgesController">    
+    <aura:attribute name="member" type="FieloPLT__Member__c" />
+    <aura:attribute name="status" type="String" />
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="layout" type="String" />
+    <aura:attribute name="columns" type="String" />
+    <aura:attribute name="paging" type="Boolean" />
+    <aura:attribute name="quantity" type="String" />
+    <aura:attribute name="fields" type="String" />
+    <aura:attribute name="fieldset" type="sObject[]" />
+    
+    <aura:attribute name="fieldsBadges" type="String[]" />
+
+    <aura:attribute name="records" type="FieloPLT__Badge__c[]" />
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <!-- PAGINADOR -->
+    <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" />
+    <!-- PAGINADOR -->
+
+    <aura:attribute type="String" name="orderBy"/>
+    <aura:attribute name="dynamicFilter" type="String" access="private"/>
+    <aura:attribute name="showFilter" type="Boolean" />
+    <aura:attribute name="filterFieldset" type="String" />
+    <aura:attribute name="sortByFieldset" type="sObject[]" />    
+    <aura:attribute type="Boolean" name="enableSortBy" />    
+
+    <aura:handler name="change" value="{!v.member}" action="{!c.updateMember}" />
+    
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent"/>
+    
+    <aura:if isTrue="{!and(v.showFilter, v.filterFieldset)}">
+        <c:Filter fields="{!v.filterFieldset}" objectAPIName="FieloPLT__Badge__c" filterRecords="{!c.filter}" showSortBy="{!v.enableSortBy}" sortByFieldset="{!v.sortByFieldset}" />
+    </aura:if>
+
+    <c:ListView showToggleBtn="false"
+                objectAPIName="FieloPLT__Badge__c"
+                paging="{!v.paging}"
+                quantity="{!v.quantity}"
+                records="{!v.records}"
+                columns="{!v.columns}"
+                layout="{!v.layout}"
+                fieldset="{!v.fieldset}"
+                title="{!v.title}"                
+                class="no-border"
+                />        
+</aura:component>

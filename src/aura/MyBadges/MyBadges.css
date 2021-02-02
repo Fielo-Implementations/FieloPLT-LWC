@@ -1,0 +1,30 @@
+.THIS.slds-section-title--divider{
+    background: transparent;
+    color: #54698D;
+    text-transform: none;
+    font-weight: 700;
+    padding-left: 0;
+}
+
+.THIS .slds-tabs__nav-scroller{
+	background: #E6EEF1;    
+}
+
+.THIS .slds-tabs_default__nav .slds-tabs_default__item:first-child{
+    margin-left: auto;
+}
+
+.THIS .slds-tabs_default__nav .slds-tabs_default__item:last-child{
+    margin-right: auto;
+}
+
+.THIS .slds-tabs_default__link, .THIS .slds-active .slds-tabs_default__link{
+    color: #54698D;
+    font-weight: 500;
+	text-transform: capitalize;
+}
+
+.THIS [data-field-name="Name"]{
+    color: #54698D;
+    font-size: 16px;
+}

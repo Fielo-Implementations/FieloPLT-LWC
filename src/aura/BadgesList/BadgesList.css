@@ -1,0 +1,7 @@
+.THIS.no-border .slds-grid{
+  border: none;
+}
+
+.THIS .title{
+    display: inline-block;
+}

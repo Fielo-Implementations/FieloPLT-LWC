@@ -1,0 +1,32 @@
+<design:component label="Fielo - Badges">
+    <design:attribute label="Title" name="memberBadgesTitle" description="Enter the title to be displayed at the top of the component." default="Badges"
+                    />
+    <design:attribute label="Member Badges Layout" name="memberBadgesLayout" description="Choose 'Table' to view Member Badges in list format or 'Grid' to view them in tile format."
+    datasource='table,grid' default="grid" />
+    
+    <design:attribute label="Number of Columns" name="memberBadgesColumns" description="Choose the number of columns to be displayed, if using Grid layout."
+    datasource="1,2,3,4" default="2" />
+
+    <design:attribute label="Enable Paging" name="paging" description="Tick this box to allow Badges to be displayed in pages." default="true"
+                        />
+    <design:attribute label="# of Badges per Page" name="quantity" description="If Paging is enabled, enter the maximum number of badges you want to be displayed on a single page." default="5"
+                        />
+    <design:attribute label="Show Filter" name="showFilter" description="Tick this box display filter box." default="false"
+    />
+    <design:attribute label="Filter Fields" name="filterFields" description="Enter the API names of fields to include in the Filter Box, separated by commas."
+        default='CreatedDate/range'
+    />
+    <design:attribute name="enableSortBy" label="Enable Sorting" description="Check this box to allow members to sort Redemptions."
+        default="false" />
+    <design:attribute name="sortByFields" label="Sort By Fields" description="Enter the API names of the fields you want to make available for sorting."
+        default="Name" />
+    <design:attribute label="Member Badges Fieldset" name="memberBadgesFields" description="Enter the API names of fields to include in the Badges list, separated by commas." 
+                      default='Name,FieloPLT__ExternalURL__c/image'
+                      />
+    <design:attribute label="Show Member Achievable Badges" name="showAchievableBadges" description="Tick this box in order to display the badges a member can acheive."
+                    default='True' />
+    <design:attribute label="Show Member Unavailable Badges" name="showLostBadges" description="Tick this box in order to display the badges that are unavailable for a member."
+                    default='False' />
+    <design:attribute label="Show Member Expired Badges" name="showExpiredBadges" description="Tick this box in order to display the expired badges of a member."
+                    default='True' />
+</design:component>
