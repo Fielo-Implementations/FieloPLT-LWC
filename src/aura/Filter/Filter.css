@@ -1,0 +1,88 @@
+.THIS {
+  display: inline-flex;
+  margin-top: 1rem;
+}
+
+.THIS .slds-form-element:nth-of-type(n) {
+  padding: 0 10px 10px 10px;
+}
+
+.THIS .slds-form-element:nth-of-type(1) {
+  padding-left: 0px;
+}
+
+.THIS .uiInputNumber {
+  display: inline-block;
+  padding: 10px;
+}
+
+.THIS .uiInputDate {
+  display: inline-block;
+  padding: 10px;
+}
+
+.THIS .uiInputSelect {
+  display: inline-block;
+  padding: 10px;
+}
+
+.THIS .filterBtn {
+  bottom: -1px;
+}
+
+.THIS .range-middle-text {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.THIS .fielo-filter__submit-container {
+  position: relative;
+  bottom: 3px;
+}
+
+.THIS.filterInfo {
+  display: block;
+}
+
+.THIS .inline {
+  display: inline-block;
+}
+
+.THIS .divider {
+  padding-right: 20px;
+}
+
+.THIS .fielo-filter__range-label {
+  text-transform: lowercase;
+  padding-right: 10px;
+  margin-left: -10px;
+  color: #54698D;
+  font-size: 12px;
+}
+
+.THIS .closed {
+    display: block;
+}
+.THIS .filter-show-hide {
+    display: none;
+    text-align: right;
+}
+
+@media only screen and (max-width: 47.9375em){
+    .THIS {
+        display: block;
+    }
+    .THIS .filter-show-hide {
+        display: block;
+    }
+    .THIS .closed {
+        display: none;
+    }
+    .THIS .item {
+        display: block;
+        padding: 0;
+    }
+    .THIS .item .slds-form-element {
+        padding-right: 0;
+    }
+}

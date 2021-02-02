@@ -1,0 +1,63 @@
+<aura:component >
+    <aura:attribute type="String" name="layout" default="table" description="table, grid" />
+    <aura:attribute type="sObject[]" name="fieldset" default="[]" />
+    <aura:attribute type="sObject" name="record" />
+    <aura:attribute type="String" name="fieldName" />
+    <aura:attribute type="String" name="columns" />
+    <aura:attribute type="Boolean" name="disabled" default="false"/>
+    <aura:attribute type="Boolean" name="active" default="false"/>
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <aura:if isTrue="{!v.layout == 'table'}" >
+        <tr class="{!v.active ? 'active' : ''}">
+            <aura:iteration items="{!v.fieldset}" var="field" >
+                <td data-label="{!field.label.labelValue}" class="{!field.cssClass}" data-type="{!field.type}">
+                    <div class="{!(v.disabled ? 'disabled' : '') + (v.active ? 'active' : '') + ' slds-truncate table-element'}" title="">
+                        <c:OutputField blankValue="{!field.blankValue}" config="{!field.config}" subcomponent="{!field.subcomponent}" record="{!v.record}" fieldName="{!field.apiName}" type="{!field.type}"/>
+                    </div>
+                </td>
+            </aura:iteration>
+        </tr>
+    </aura:if>
+
+    <aura:if isTrue="{!v.layout == 'grid'}">
+        <div class="{!'grid-item slds-p-around--small slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-' + v.columns + ' slds-text-align_center'}">
+            <div class="slds-p-right--small slds-p-left--small slds-p-bottom--small">
+                <aura:iteration items="{!v.fieldset}" var="field" >
+                    <div class="{!'slds-p-top--small ' + field.cssClass}" >
+                        <aura:if isTrue="{!field.showLabel}">
+                            <label class="slds-form-element__label inline">{!field.label.labelValue}</label>
+                        </aura:if>
+                        <c:OutputField blankValue="{!field.blankValue}" subcomponent="{!field.subcomponent}" config="{!field.config}" record="{!v.record}" fieldName="{!field.apiName}" type="{!field.type}" class="{!(field.showLabel == true ? ' inline' : ' slds-text-align_center')}"/>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.layout == 'accordiondetail'}">
+        <aura:iteration items="{!v.fieldset}" var="field" >
+            <div class="{!'slds-p-top--small accordion-item ' + field.cssClass}" data-label="{!field.label.labelValue}" >
+                <aura:if isTrue="{!field.showLabel}">
+                    <label class="slds-form-element__label inline">{!field.label.labelValue}</label>
+                </aura:if>
+                <c:OutputField blankValue="{!field.blankValue}" subcomponent="{!field.subcomponent}" config="{!field.config}" record="{!v.record}" fieldName="{!field.apiName}" type="{!field.type}" class="{!(field.showLabel == true ? ' inline bold' : ' slds-text-align_center bold')}"/>
+            </div>
+        </aura:iteration>
+    </aura:if>
+
+    <aura:if isTrue="{!v.layout == 'accordion'}">
+        <lightning:accordionSection name="{!v.record.Id}" label="{!v.record.Name}">
+            <aura:set attribute="body">
+                <aura:iteration items="{!v.fieldset}" var="field" >
+                    <aura:if isTrue="{!field.showLabel}">
+                        <label class="slds-form-element__label inline">{!field.label.labelValue}</label>
+                    </aura:if>
+                    <c:OutputField blankValue="{!field.blankValue}" subcomponent="{!field.subcomponent}" config="{!field.config}" record="{!v.record}" fieldName="{!field.apiName}" type="{!field.type}" class="{!(field.showLabel == true ? ' inline bold' : ' slds-text-align_center bold')}"/>
+                </aura:iteration>
+            </aura:set>
+        </lightning:accordionSection>
+
+    </aura:if>
+</aura:component>

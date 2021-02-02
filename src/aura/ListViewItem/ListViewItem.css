@@ -1,0 +1,80 @@
+.THIS .disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.THIS .active {
+  color: token(colorTextLink);
+  font-weight: bold;
+}
+
+.THIS .inlineValue {
+  width: 50%;
+}
+
+.THIS .bordered {
+  border: 1px solid #e9e9e9;
+}
+
+.THIS .inline {
+  display: inline-block;
+}
+
+.THIS .table-element {
+  color: #16325C;
+}
+
+.THIS.accordion-item {
+  display: inline-block;
+  font-size: 15px;
+  margin-left: 27px;
+}
+.THIS.accordion-item:nth-child(3) {
+  margin-left: 10px;
+}
+
+.THIS.accordion-item .slds-form-element__label {
+  color:#54698D;
+  font-size: 15px;
+}
+
+.THIS.accordion-item .slds-form-element__label::after {
+  content: ':';
+  display: inline;
+}
+
+.THIS .bold {
+  font-weight: 700;
+  color: #54698D;
+}
+
+.THIS .fielo-link .fielo-output[data-type="output"] {
+  font-size: 14px;
+}
+
+.THIS.grid-item .fielo-output[data-type="image"] {
+  height: 140px;
+}
+
+.THIS.grid-item .fielo-output[data-type="image"] img {
+  max-width: 100%;
+  height: 100%;
+}
+
+.THIS.slds-table .header-labels{
+    font-size: 15px;
+    color: #54698d;
+    font-weight: 700;
+    padding-top: 20px;
+}
+
+.THIS .table-element .fielo-output[data-type="image"] {
+  width: 84px;
+  height: 84px;
+  text-align: center;
+}
+
+.THIS .table-element .fielo-output[data-type="image"] img {
+  max-width: 100%;
+  height: 100%;
+}

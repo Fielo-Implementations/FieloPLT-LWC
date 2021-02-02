@@ -1,0 +1,55 @@
+<aura:component controller="ProgramAgreementController">
+    <aura:attribute name="showCheckbox" type="Boolean" default="False"/>    
+    <aura:attribute name="showAgreement" type="Boolean" default="False"/>
+    <aura:attribute name="showAgreementModal" type="Boolean" default="False"/>
+    <aura:attribute name="agreementChecked" type="Boolean" default="False"/>
+    <aura:attribute name="member" type="FieloPLT__Member__c" />
+    <aura:attribute name="program" type="String" />    
+    <aura:attribute name="agreement" type="sObject" />
+    
+    <aura:attribute name="registration" type="Boolean" default="false" />
+    
+    <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}"/>
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent"/>    
+    
+    <aura:registerEvent name="checkAgreement" type="c:CheckAgreementEvent"/>    
+    <aura:registerEvent name="hasAgreement" type="c:HasAgreementEvent"/>    
+    
+    <aura:handler name="change" value="{!v.showAgreement}" action="{!c.showAgreement}"/>
+    
+    <!--<aura:handler name="change" value="{!v.program}" action="{!c.agreement}"/>-->
+    
+    <aura:method name="updateProgram" action="{!c.agreement}">
+        <aura:attribute name="program" type="String"/>
+    </aura:method>
+    
+    <aura:if isTrue="{!v.showAgreementModal}">      
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:button iconName="utility:close" variant="inverse" class="slds-modal__close modal-close-btn"  onclick="{!c.dismiss }" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Terms and Conditions</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-p-around--small">
+                        <div>
+                            {!v.agreement.FieloPLT__Agreement__c }
+                        </div>
+                        <div class="slds-p-top--small">
+                            <aura:if isTrue="{!v.showCheckbox}">
+                                <lightning:input type="checkbox" label="I agree" name="agreement" checked="{!v.agreementChecked}" />
+                            </aura:if>
+                        </div>                    
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="brand" label="Close" onclick="{!c.dismiss}" />
+                    <aura:if isTrue="{!v.showCheckbox}">
+                        <lightning:button variant="brand" label="{!$Label.c.Submit}" disabled="{!!v.agreementChecked}" onclick="{!c.submit }" />
+                    </aura:if>                
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>                
+    </aura:if>    
+</aura:component>

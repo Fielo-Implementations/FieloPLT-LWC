@@ -1,0 +1,10 @@
+<aura:component >
+    <aura:attribute name="error" type="String" />
+    <div class="slds-p-top--small slds-p-bottom--small">
+        <lightning:icon iconName="utility:error" size="medium" alternativeText="{!$Label.c.SomethingWentWrong}" class="error-icon" />
+        <h3 class="slds-p-left--small inline">{!$Label.c.SomethingWentWrong}</h3>
+        <div class="error-msg">
+            {!v.error}
+        </div>
+    </div>
+</aura:component>

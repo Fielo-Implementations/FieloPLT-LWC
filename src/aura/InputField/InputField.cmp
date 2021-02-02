@@ -1,0 +1,93 @@
+<aura:component>
+  <aura:attribute name="checked" type="Boolean" />
+  <aura:attribute name="field" type="Object" />
+  <aura:attribute name="class" type="String" />
+  <aura:attribute name="fieldName" type="String" />
+  <aura:attribute name="helptext" type="String" />
+  <aura:attribute name="label" type="String" />
+  <aura:attribute name="picklistEntries" type="sObject[]" />
+  <aura:attribute name="renderPicklistEntries" type="sObject[]" />
+  <aura:attribute name="defaultPicklistValue" type="String" />
+  <aura:attribute name="required" type="Boolean" default="false" />
+  <aura:attribute name="showLabel" type="Boolean" default="true" />
+  <aura:attribute name="disableSelectAnOption" type="Boolean" default="false" />
+  <aura:attribute name="type" type="String" />
+  <aura:attribute name="value" type="String" />
+  <aura:attribute name="defaultValue" type="String" />
+  <aura:attribute name="valueFrom" type="String" />
+  <aura:attribute name="valueTo" type="String" />
+  <aura:attribute name="metadata" type="Map" />
+  
+  <aura:registerEvent name="changeEvent" type="c:ChangeEvent" />
+  <aura:registerEvent name="GetInputValue" type="c:GetInputValue" />
+  <aura:handler event="c:ChangeEvent" action="{!c.handleChangeEvent}" />
+  <aura:handler event="c:GetInputValue" action="{!c.handleGetInputValue}" />
+  
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+  <aura:handler name="change" value="{!v.value}" action="{!c.handleChangeValue}" />
+
+
+  <aura:method name="getValue" action="{!c.get}"></aura:method>
+
+  <div class="{!v.class}">
+    <aura:if isTrue="{!v.showLabel}">
+      <aura:if isTrue="{!v.required}">
+        <abbr title="required" class="slds-required" lightning-input_input="">*</abbr>
+      </aura:if>
+      <label class="slds-form-element__label slds-no-flex">{!v.label}&nbsp;
+        <aura:if isTrue="{! !empty(v.helptext)}">
+          <lightning:helptext content="{!v.helptext}" class="fielo-helptext" />
+        </aura:if>
+      </label>
+
+      <aura:set attribute="else">
+        <label class="slds-form-element__label slds-no-flex" />
+      </aura:set>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'picklist'}">
+      <lightning:select aura:id="picklist" required="{!v.required}" variant="label-hidden" name="select" label="{!v.label}" value="{!v.value}" class="fielo-type--select">
+        <aura:if isTrue="{!v.metadata.isNillable}">
+          <aura:if isTrue="{!v.defaultPicklistValue.length > 0}">
+            <option value="">{!v.defaultPicklistValue}</option>
+            <aura:set attribute="else">
+              <option value="">{!$Label.c.None}</option>
+            </aura:set>
+          </aura:if>
+        </aura:if>
+        <aura:iteration items="{!v.renderPicklistEntries}" var="entry">
+          <option value="{!entry.value}" class="{!entry.cssClass}">{!entry.label}</option>
+        </aura:iteration>
+      </lightning:select>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'reference'}">
+      <c:Lookup aura:id="lookupField" field="{!v.field}" showLabel="{!v.showLabel}" />
+    </aura:if>
+
+    <aura:if isTrue="{!or(v.type == 'date', v.type == 'datetime')}">
+      <lightning:input required="{!v.required}" variant="label-hidden" type="date" name="input" label="{!v.label}"
+        value="{!v.value}" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'checkbox'}">
+      <lightning:input required="{!v.required}" variant="label-hidden" type="checkbox" name="input" label="{!v.label}"
+        checked="{!v.checked}" class="fielo-checkbox" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'number'}">
+      <lightning:input required="{!v.required}" variant="label-hidden" type="number" name="input" label="{!v.label}"
+        value="{!v.value}" class="fielo-type--number" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'email'}">
+      <lightning:input required="{!v.required}" variant="label-hidden" type="email" name="input" label="{!v.label}"
+        value="{!v.value}" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'text'}">
+      <lightning:input required="{!v.required}" variant="label-hidden" type="text" name="input" label="{!v.label}"
+        value="{!v.value}" />
+    </aura:if>
+  </div>
+</aura:component>

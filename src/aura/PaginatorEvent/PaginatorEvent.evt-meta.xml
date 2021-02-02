@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuraDefinitionBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>43.0</apiVersion>
+    <description>Paginator Event</description>
+</AuraDefinitionBundle>
+
+/Users/hugogomez/workspace/repos/fia/core/src/aura/Period/Period.cmp-meta.xml

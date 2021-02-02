@@ -1,0 +1,63 @@
+.THIS .slds-section-title--divider{
+    background: transparent;
+    color: #54698D;
+    text-transform: none;
+    font-size: 20px;
+    padding-left: 0;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .header  .accordion-item.fielo-field--is-point-type {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .header .accordion-item.fielo-field--is-point-type .slds-form-element__label,
+.THIS .fielo-list--is-payouts .fielo-accordion__container .header .accordion-item.fielo-field--is-point-type .fielo-output  {
+    font-size: 20px;
+    color: #54698D;
+    text-transform: lowercase;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .header .accordion-item.fielo-field--is-point-type .slds-form-element__label {
+    margin-left: 4px;
+    font-weight: 700;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .header .accordion-item.fielo-field--is-point-type .slds-form-element__label::after {
+    display: none;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .body .FieloPLTListView .slds-form-element__label {
+    display: none;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .body .FieloPLTListView .fielo-output {
+    font-size: 14px;
+    color: #54698D;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .body .FieloPLTListView .fielo-field--is-point-type  {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .body .FieloPLTListView  .fielo-field--is-point-type .slds-form-element__label {
+    margin-left: 4px;
+    margin-right: 0;
+    display: inline-block;
+    font-size: 18px;
+    color: #54698D;
+    text-transform: lowercase;
+}
+
+.THIS .fielo-list--is-payouts .fielo-accordion__container .body .FieloPLTListView .fielo-field--is-point-type .fielo-output {
+    font-size: 18px;
+}
+
+.THIS .fielo-breadcrumb__current {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}

@@ -1,0 +1,11 @@
+<design:component label="Fielo - Member Selector">    
+    <design:attribute label="Member Fields" name="fields" description="Enter the API names of the fields you want to be displayed, separated by commas." 
+                      default='FieloPLT__Points__c'
+                      />
+    <design:attribute label="Member Subfield" name="subfield" description="Enter the API name of the field you want to be displayed below the member's name" 
+                      default='FieloPLT__CurrentLevelMember__r.FieloPLT__Level__r.Name'
+                      />
+    <design:attribute label="Hide Member Selector" name="hideSelector" description="Check this box if you want to make the component invisible on the page." 
+                      default='false'
+                      />                      
+</design:component>

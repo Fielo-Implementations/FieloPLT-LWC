@@ -1,0 +1,8 @@
+.THIS .modal-close-btn{
+    border: none;
+    padding: 0;
+}
+.THIS .modal-close-btn .slds-button__icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}

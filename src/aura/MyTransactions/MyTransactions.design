@@ -1,0 +1,43 @@
+<design:component label="Fielo - My Transactions">
+    <design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component."
+        default="My Transactions" />
+    <design:attribute label="Layout" name="layout" description="Choose 'Table' to view Transactions in list format or 'Grid' to view them in tile format."
+        datasource='Table,Grid' default="Table" />
+    <design:attribute label="Number of Columns" name="columns" description="Choose the number of columns to be displayed, if using Grid view."
+        datasource="1,2,3,4" default="4" />
+    <design:attribute label="Show Filter" name="showDateFilter" description="Tick this box to show filter." default="true" />
+    <design:attribute label="Filter Fileds" name="filterFields" description="Enter the API names of fields to include in the Filter Box, separated by commas."
+        default='CreatedDate/range' />
+        <design:attribute name="enableSortBy" label="Enable Sorting" description="Check this box to allow members to sort Redemptions."
+        default="false" />
+    <design:attribute name="sortByFields" label="Sort By Fields" description="Enter the API names of the fields you want to make available for sorting."
+        default="Name" />
+    <design:attribute label="Enable Paging" name="paging" description="Tick this box to allow Transactions to be displayed in pages."
+        default="true" />
+    <design:attribute label="Records per page" name="quantity" description="Enter the number of Transactions to be displayed per page, if using Paging."
+        default="5" />
+    <design:attribute label="Fieldset" name="fields" description="Enter the API names of fields to include in the Transaction list, separated by commas."
+        default='FieloPLT__Points__c/colorNumber,FieloPLT__Date__c/date,FieloPLT__Type__c' />
+    <design:attribute label="Record Detail Fieldset" name="recordDetailFieldset" description="Enter the API names of Transaction fields you want to be visible in detail view, separated by commas."
+        default='FieloPLT__Points__c,FieloPLT__Type__c,FieloPLT__IsProcessed__c/checkbox,FieloPLT__IsReverted__c/checkbox' />
+    <design:attribute label="Point Related List" name="showPointRelated" description="Tick this box if you would like Points to be displayed in Transaction detail view."
+        default='true' />
+    <design:attribute label="Point Related List Fieldset" name="pointRelatedFields" description="Enter the API names of Point fields you want to be displayed in Transaction detail view, separated by commas."
+        default='Name,FieloPLT__Rule__r.Name,FieloPLT__ChallengeReward__r.Name,FieloPLT__TotalPoints__c,FieloPLT__UsedPoints__c,FieloPLT__ExpiredPoints__c,FieloPLT__Balance__c,FieloPLT__Status__c,FieloPLT__ExpirationDate__c'
+    />
+
+    <design:attribute label="Badge Member Related List" name="showBadgeMemberRelated" description="Tick this box if you would like Badge Members to be displayed in Transaction detail view."
+        default='true' />
+    <design:attribute label="Badge Member Related List Fieldset" name="badgeMemberRelatedFields" description="Enter the API names of Badge Member fields you want to be displayed in Transaction detail view, separated by commas."
+        default='Name,FieloPLT__Badge__r.Name' />
+
+    <design:attribute label="Redemption Related List" name="showRedemptionRelated" description="Tick this box if you would like Redemptions to be displayed in Transaction detail view."
+        default='true' />
+    <design:attribute label="Redemption Related List Fieldset" name="redemptionRelatedFields" description="Enter the API names of Redemption fields you want to be displayed in Transaction detail view, separated by commas."
+        default='Name,FieloPLT__Status__c,FieloPLT__Rule__r.Name,FieloPLT__ChallengeReward__r.Name' />
+
+    <design:attribute label="Use Advanced Configuration only" name="useAdvancedOnly" description="Tick this box if you want to use only the Advanced Configuration property to configure this component."
+        default="false" />
+    <design:attribute label="Advanced Configuration" name="config" description="For advanced functionality, enter a JSON string here. See Fielo documentation for details."
+    />
+</design:component>

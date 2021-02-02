@@ -1,0 +1,121 @@
+.THIS .slds-card__header{
+    text-align: left;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-bottom: 0;    
+    border-bottom: 1px solid #d8dde6;
+    font-weight: 700;
+}
+.THIS .slds-card__header .slds-media__body.slds-truncate {
+    white-space: normal;
+ }
+
+.THIS .slds-card.grid .slds-card__header {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.THIS .slds-card__footer{
+    background-color: #f4f6f9;
+    padding-top: 0.75rem;
+    text-align: center;
+}
+.THIS .slds-card__footer .slds-button {
+    margin: 3px 0;
+}
+
+.THIS .slds-card{
+    border-color: #D8DDE6;
+    box-shadow: 0px 3px 5px #D8DDE6;
+    font-size: 14px;
+    border: 1px solid #d8dde6;
+}
+
+.THIS .slds-card{    
+    color: #54698D;    
+}
+
+.THIS .slds-card .slds-text-heading--small{
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px;
+    display: block;
+}
+
+.THIS .slds-card__body{
+    margin-bottom: 0;
+}
+.THIS .slds-card__body .fielo-output[data-type="image"] {
+    height: 200px;
+    overflow: hidden;
+}
+
+.THIS .slds-card img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 100%;
+}
+
+.THIS .slds-card__footer{
+    margin-top: 0;
+}
+
+.THIS .slds-card__footer .fielo-output{
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.THIS .slds-card img{
+    max-width: 100%;
+}
+
+.THIS .table .slds-card__footer, .THIS .Table .slds-card__footer{
+    text-align: right;
+}
+.THIS .slds-card__body .fielo-output{
+    text-align: left;
+}
+
+.THIS .no-border.slds-grid{
+    border: none;
+}
+
+.THIS .grid .item:not(.image) {
+    padding: 10px;
+}
+
+.THIS .view img{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .view .subfields-container{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.THIS .view .withSubfield img{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 0;
+}
+
+.THIS .view .slds-card__header{
+    display:none;
+}
+
+.THIS .title.title-view{
+    text-align: left;
+    font-size: 20px;
+    width: 100%;
+}
+
+.THIS .title-container{
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS .challenge-audience{
+    float: right;
+}

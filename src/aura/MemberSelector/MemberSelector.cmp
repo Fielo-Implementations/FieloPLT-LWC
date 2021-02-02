@@ -1,0 +1,115 @@
+<aura:component controller="MemberSelectorController" implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes"
+                access="global">
+    
+    <aura:attribute type="Member__c[]" name="members" access="private" />
+    <aura:attribute type="Member__c" name="memberInfo" access="private" />
+    
+    <aura:attribute type="sObject[]" name="programs" access="private" />
+    <aura:attribute type="Program__c" name="programInfo" access="private" />
+    
+    <aura:attribute type="sObject[]" name="fieldset" default="[]" access="private" />
+    
+    
+    <aura:attribute type="String" name="configDefault" default='{   "fieldset": [{"type":"output","apiName":"FieloPLT__Points__c","label":{"type":"default"},"showLabel":true}]}'></aura:attribute>
+    
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="fields" access="global" />
+    <aura:attribute type="String" name="subfield" access="global" />    
+    <aura:attribute type="Boolean" name="hideSelector" access="global" />    
+    <!-- DESIGN ATTRIBUTES -->
+    
+    <aura:attribute type="Boolean" name="showMemberFields" default="false" access="private" />
+    <aura:attribute type="Boolean" name="showProfile" default="true" access="private" />
+    
+    <aura:attribute type="String" name="memberLabel" />
+    <aura:attribute type="String" name="programLabel" />
+    
+    <!-- ERROR -->
+    <aura:attribute name="showError" type="Boolean" />
+    <aura:attribute name="error" type="String" />
+    <!-- ERROR -->
+    
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent" />
+    <aura:registerEvent name="updateMemberEvent" type="c:UpdateMemberEvent" />
+    <aura:registerEvent name="toggleRegistrationEvent" type="c:ToggleRegistrationEvent" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" /> 
+    
+    <aura:handler event="c:RefreshMemberEvent" action="{!c.refreshMember}" />
+    <aura:handler name="destroy" value="{!this}" action="{!c.handleDestroy}" />
+    <!-- <aura:handler event="c:UpdateMemberEvent" action="{!c.refreshMember}" /> -->
+    <c:auraPubsub aura:id="pubsub" onready="{!c.handlePubsubReady}" />
+    <c:ccMemberAgreement member="{!v.memberInfo.Id}" />
+    
+    <aura:if isTrue="{!v.showProfile}">
+        <article class="{!v.hideSelector ? 'hidden slds-card' : 'slds-card'}">
+            <div class="item">
+                <div class="slds-form-element__label member-label"> {!v.programLabel} </div>
+                <div class="member-item">
+                    <lightning:select aura:id="programSelect" name="programSelectItem" label="{!v.programLabel}" variant="label-hidden" onchange="{!c.selectProgram}"
+                                      class="{!v.programs.length > 1 ? 'programSelect inline' : 'programSelect oneItem inline'}">
+                        <aura:iteration items="{!v.programs}" var="program">
+                            <aura:if isTrue="{!program.disabled}">
+                                    <option disabled="true" value="{!program.program.Id}" selected="{!program.program.Id == v.programInfo.Id}">{!program.program.Name}</option>
+                                <aura:set attribute="else">
+                                    <option value="{!program.program.Id}" selected="{!program.program.Id == v.programInfo.Id}">{!program.program.Name}</option>
+                                </aura:set>
+                            </aura:if>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            <div class="item">
+                <div class="slds-form-element__label member-label"> {!v.memberLabel} </div>
+                <div class="member-item">
+                    <aura:if isTrue="{!v.showMemberFields}">
+                        <div class="profile-image inline">
+                            <aura:if isTrue="{!v.memberInfo.FieloPLT__ExternalURL__c}">
+                                <c:OutputField type="image" record="{!v.memberInfo}" fieldName="FieloPLT__ExternalURL__c" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.FieloPlt_Salesforce + '/images/member.png'}" />
+                                </aura:set>
+                            </aura:if>
+                            
+                        </div>
+                    </aura:if>
+                    <lightning:select aura:id="memberSelect" name="selectItem" label="{!v.memberLabel}" variant="label-hidden" onchange="{!c.selectMember}"
+                                      class="{!or(v.members.length > 1, and(v.members.length == 1, and(v.members[0].FieloPLT__Status__c != 'Opt-out', v.members[0].FieloPLT__Status__c != 'Active'))) ? 'memberSelect inline' : 'memberSelect inline oneItem'}">
+                        <aura:iteration items="{!v.members}" var="member">
+                            <aura:if isTrue="{!and(member.FieloPLT__Status__c != 'Opt-out', member.FieloPLT__Status__c != 'Active')}">
+                                <option disabled="true" value="{!member.Id}">{!member.FieloPLT__Status__c} - {!member.Name}</option>
+                                <aura:set attribute="else">
+                                    <option value="{!member.Id}" selected="{!member.Id == v.memberInfo.Id}">{!member.Name}</option>
+                                </aura:set>
+                            </aura:if>
+                        </aura:iteration>
+                    </lightning:select>
+                    <aura:if isTrue="{!v.showMemberFields}">
+                        <aura:if isTrue="{!v.subfield}">
+                            <div class="subfield">
+                                <c:OutputField type="output" record="{!v.memberInfo}" fieldName="{!v.subfield}"
+                                               /> 
+                            </div>
+                        </aura:if>                        
+                    </aura:if>
+                </div>
+            </div>
+            <aura:if isTrue="{!v.showMemberFields}">
+                <aura:iteration items="{!v.fieldset}" var="field">
+                    <div class="item">
+                        <aura:if isTrue="{!field.showLabel}">
+                            <div class="slds-form-element__label"> {!field.label} </div>
+                        </aura:if>
+                        <div class="member-item">
+                            <c:OutputField record="{!v.memberInfo}" fieldName="{!field.apiName}" type="{!field.type}" class="" />
+                        </div>
+                    </div>
+                </aura:iteration>
+            </aura:if>
+        </article>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showError}">
+        <c:Error error="{!v.error}" />
+    </aura:if>
+</aura:component>

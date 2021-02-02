@@ -1,0 +1,33 @@
+<design:component label="Fielo - Join Program">
+    <design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component."
+        default="Join our programs" />
+    <design:attribute label="Layout" name="layout" description="Choose 'Table' to display programs in list format or 'Grid' to display them in tile format."
+        datasource='Table,Grid' default="Table" />
+        <design:attribute label="Layout Style" name="layoutType" description="Choose 'Card' to display programs in card style or 'None' to display them in a classic wireframe."
+        datasource='Card,None' default="Card" />
+    <design:attribute label="Number of Columns" name="columns" description="Choose the number of columns to be displayed, if using Grid layout."
+        datasource="1,2,3,4" default="3" />
+    <design:attribute label="Enable Paging" name="paging" description="Check this box to allow programs to be displayed in pages." default="true"
+                />
+    <design:attribute
+        name="quantity"
+        label="# of Programs per Page"
+        description="If Paging is enabled, enter the maximum number of programs you want to be displayed on a single page."
+        default="5"
+    />
+    <design:attribute label="Show Filter" name="showFilter" description="Check this box to allow members to filter their available programs." default="false"
+    />
+    <design:attribute label="Filter Fields" name="filterFields" description="If filtering is enabled, enter the API names of the program fields you want members to be able to filter by, separated by commas."
+    default='CreatedDate/range'
+    />
+    <design:attribute name="enableSortBy" label="Enable Sorting" description="Check this box to allow members to sort their available programs."
+    default="false" />
+    <design:attribute name="sortByFields" label="Sort By Fields" description="If sorting is enabled, enter the API names of the fields you want members to be able to sort by, separated by commas."
+    default="Name" />
+    <design:attribute label="ProgramId List" name="programList" description="Enter the IDs of the programs you want members to be able to join, separated by commas (e.g. a0Q5000000PP1F4EAL, a0Q5000000NxSh3EAF8). If blank, members will be able to join any program."
+    />
+    <design:attribute label="Program Fields" name="fields" description="Enter the API names of the fields that you want to be displayed on the available program list, separated by commas."
+        default="FieloPLT__ExternalURL__c/image,FieloPLT__Description__c" />
+    <design:attribute label="Program Detail Fields" name="recordDetailFieldset" description="Enter the API names of the fields that you want to be displayed in program detail views, separated by commas."
+        default='FieloPLT__Description__c' />
+</design:component>

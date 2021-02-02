@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="userMembers" type="FieloPLT__Member__c[]"/>
+</aura:event>

@@ -1,0 +1,74 @@
+<aura:component controller="FilterController">
+
+  <aura:attribute name="showFilter" type="Boolean" default="false" />
+  <aura:attribute name="showSortBy" type="Boolean" default="false" />
+  <aura:attribute name="sortByEntries" type="sObject[]" />
+  <aura:attribute name="sortByFieldset" type="sObject[]" />
+
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+  <aura:registerEvent name="filterRecords" type="c:FilterEvent" />
+
+  <aura:attribute name="fields" type="String" />
+  <aura:attribute name="fieldset" type="sObject[]" />
+
+  <aura:attribute name="defaultOptions" type="sObject" />
+  <aura:attribute name="overrideHelptext" type="Map" />
+
+  <aura:attribute name="condition" type="String" />
+
+  <aura:attribute name="objectAPIName" type="String" />
+  <aura:attribute name="filterClosed" type="Boolean" default="true" />
+
+  <aura:if isTrue="{!v.showFilter}">
+    <div>
+        
+      <div class="filter-show-hide">
+        <aura:if isTrue="{!v.filterClosed}">
+            <a onclick="{!c.toggle}">{!$Label.c.ShowFilters}</a>
+            <aura:set attribute="else">
+                <a onclick="{!c.toggle}">{!$Label.c.HideFilters}</a>
+            </aura:set>
+        </aura:if>
+        </div>
+
+        <div aura:id="accordionBody" class="{!v.filterClosed ? 'fielo-filter-container closed' : 'fielo-filter-container' }">
+        <div>
+            
+          <aura:iteration items="{!v.fieldset}" var="field">
+            <aura:if isTrue="{!field.type == 'range'}">
+
+              <div class="inline item">
+                <div class="inline">
+                  <c:InputField aura:id="rangeInputFrom" type="{!field.attributes.inputType}" fieldName="{!field.attributes.name}" helptext="{!field.attributes.helpText}" picklistEntries="{!field.picklistentries}" label="{!field.attributes.label}" />
+                </div>
+                <div class="inline divider fielo-filter__range-label">{!$Label.c.To}</div>
+                <div class="inline">
+                  <c:InputField aura:id="rangeInputTo" type="{!field.attributes.inputType}" fieldName="{!field.attributes.name}" helptext="{!field.attributes.helpText}" picklistEntries="{!field.picklistentries}" label="{!field.attributes.label}" showLabel="false" />
+                </div>
+              </div>
+
+              <aura:set attribute="else">
+                <div class="inline slds-p-right--small item">
+                  <c:InputField aura:id="filterInput" type="{!field.attributes.inputType}" fieldName="{!field.attributes.name}" helptext="{!field.attributes.helpText}" picklistEntries="{!field.picklistentries}" label="{!field.attributes.label}" field="{!field}" defaultPicklistValue="{!field.defaultPicklistValue}" defaultValue="{!field.defaultValue}" required="{!field.attributes.required}" disableSelectAnOption="{!field.disableSelectAnOption}"/>
+                </div>
+              </aura:set>
+            </aura:if>
+          </aura:iteration>
+
+          <aura:if isTrue="{!v.showSortBy}">
+            <div class="inline item">
+              <c:InputField type="picklist" fieldName="" helptext="{!$Label.c.SortByHelpText}" picklistEntries="{!v.sortByEntries}" label="{!$Label.c.SortBy}" field="" aura:id="fielo-filter__sort-by" />
+            </div>
+          </aura:if>
+
+          <div class="fielo-filter__submit-container inline item">
+            <lightning:button label="{!$Label.c.Filter}" class="filterBtn" variant="brand" onclick="{!c.filter}" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aura:if>
+<!-- Faltan los labels del sort by -->
+</aura:component>

@@ -1,0 +1,43 @@
+.THIS.uiInputDate{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.THIS.filterBtn{
+    position: relative;
+    top: -1px;
+}
+
+.THIS.filterBtn .slds-button__icon{
+    margin-right: 0;
+}
+
+.THIS.filterInfo{
+    color: #54698D;
+    font-size: 14px;
+    font-weight: 700;
+    padding-top: 20px;
+}
+
+.THIS.slds-section-title--divider{
+    background: transparent;
+    color: #54698D;
+    text-transform: none;
+    font-size: 20px;
+    padding-left: 0;
+}
+
+.THIS.divider{
+    text-transform: lowercase;
+    display: inline;
+    margin-right: 10px;
+}
+
+.THIS.filterInput{
+    display:inline-block;
+    margin-right: 10px;
+}
+
+.THIS.accordion .body{
+    padding-top: 10px;
+}

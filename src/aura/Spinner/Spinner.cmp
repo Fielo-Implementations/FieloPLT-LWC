@@ -1,0 +1,4 @@
+<aura:component >
+    <aura:handler event="c:ToggleSpinnerEvent" action="{!c.toggleSpinner}"/>
+	<lightning:spinner alternativeText="Loading" variant="brand" size="large" class="slds-hide" aura:id="fieloSpinner" />
+</aura:component>

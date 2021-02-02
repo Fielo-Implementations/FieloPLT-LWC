@@ -1,0 +1,106 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="MyPayoutsController" access="global">
+
+    <aura:attribute name="member" type="Member__c" />
+
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent" />
+    <aura:attribute name="configDefault" type="String"
+        default='{"quantity":5,"filterFields":"FieloPLT__Status__c,FieloPLT__PayoutDate__c/range","fieldset":[{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Amount__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Status__c","label":{"type":"default"},"showLabel":true}],"recordDetail":{"sections":[],"relatedLists":[{"title":{"type":"text","value":"Payout Items"},"objectRelation":"FieloPLT__Points__r","objectAPIName":"FieloPLT__Point__c","fieldset":[{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":false},{"type":"output","apiName":"FieloPLT__TotalPoints__c","label":{"type":"default"},"showLabel":false}]}],"subcomponents":[]}}' />
+
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute name="titleValue" type="String" access="global" />
+    <aura:attribute name="layout" type="String" access="global" default="table" />
+    <aura:attribute name="columns" type="String" access="global" default="2"/>
+
+    <aura:attribute name="showFilter" type="Boolean" access="global" />
+    <aura:attribute name="filterFields" type="String" access="global" />
+    <aura:attribute type="Boolean" name="enableSortBy" access="global" />
+    <aura:attribute type="String" name="sortByFields" access="global" />
+
+    <aura:attribute name="fields" type="String" access="global" />
+    <!-- <aura:attribute name="showPayoutItemRelated" type="Boolean" access="global" />
+    <aura:attribute name="payoutItemRelatedFields" type="String" access="global" /> --> 
+
+    <!-- DESIGN ATTRIBUTES -->
+
+    <aura:attribute name="orderBy" type="String" />
+    <aura:attribute name="sortByFieldset" type="sObject[]" access="private" />
+    <aura:attribute name="fieldset" type="sObject[]" access="private" />
+    <aura:attribute name="sortByEntries" type="sObject[]"/>
+    <aura:attribute name="filterFieldset" type="String" access="private" />
+    <aura:attribute name="title" type="String" access="private" />
+    
+    <aura:attribute name="showRecords" type="Boolean" default="false" access="private" />
+    <aura:attribute name="showList" type="Boolean" default="true" access="private" />
+    <aura:attribute name="showDetail" type="Boolean" default="false" access="private" />
+    <aura:attribute name="records" type="sObject[]" access="private" />
+    <aura:attribute name="record" type="Object" access="private" />
+    <aura:attribute name="condition" type="String" access="private" />
+    <aura:attribute name="dataFilters" type="String" />
+
+    <!-- FILTER -->
+    <aura:attribute name="dynamicFilter" type="String" />
+    <aura:attribute name="overrideHelptext" type="Map" />
+    <aura:attribute name="defaultPicklistOptions" type="sObject" />
+    <!-- FILTER -->
+
+    <!-- PAGINADOR -->
+    <aura:attribute name="paging" type="Boolean" access="global" />
+    <aura:attribute name="quantity" type="Integer" access="global" />
+    <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" default="false" />
+    <!-- PAGINADOR -->
+
+    <!-- ERROR -->
+    <aura:attribute name="showError" type="Boolean" />
+    <aura:attribute name="error" type="String" />
+    <!-- ERROR -->
+
+    <!-- RECORD DETAIL -->
+    <aura:attribute name="recordDetailListviews" type="sObject" />
+    <aura:attribute name="recordDetail" type="sObject" />
+    <!-- RECORD DETAIL -->
+
+    <!-- registers -->
+    <aura:handler name="showRecord" event="c:ShowRecordEvent" action="{!c.showRecord}" />
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+    <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}" />
+    <div>
+        <aura:if isTrue="{!v.showList}">
+            <aura:if isTrue="{!!empty(v.title)}">
+                <h3 class="slds-section-title--divider">{!v.title}</h3>
+            </aura:if>
+
+            <aura:if isTrue="{!and(v.showFilter, v.filterFieldset)}">
+                <c:Filter defaultOptions="{!v.defaultPicklistOptions}" overrideHelptext="{!v.overrideHelptext}"
+                    fieldset="{!v.filterFieldset}" objectAPIName="FieloPLT__Payout__c" filterRecords="{!c.filter}"
+                    showSortBy="{!v.enableSortBy}" sortByEntries="{!v.sortByEntries}" />
+            </aura:if>
+            <aura:if isTrue="{!v.showRecords}">
+                <c:ListView recordDetail="{!v.recordDetail}"
+                    objectAPIName="FieloPLT__Payout__c" paging="{!v.paging}" quantity="{!v.quantity}"
+                    records="{!v.records}" columns="{!v.columns}" layout="{!v.layout}" fieldset="{!v.fieldset}"
+                    class="fielo-list--is-payouts" />
+            </aura:if>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showError}">
+            <c:Error error="{!v.error}" />
+        </aura:if>
+
+        <aura:if isTrue="{!v.showDetail}">
+            <lightning:breadcrumbs class="slds-text-title_caps">
+                <lightning:breadcrumb label="{!$Label.c.MyPayouts}" onclick="{!c.backToMyPayouts}" />
+                <li class="slds-breadcrumb__item fielo-breadcrumb__current">
+                    {!v.record.Name}
+                </li>
+            </lightning:breadcrumbs>
+            
+            <c:ccDetail fieldSetName="FieloPLT__ccPayoutDetail" objectName="FieloPLT__Payout__c" record="{!v.record}"/>
+
+            <c:ccRelatedList objectName="FieloPLT__Point__c" fieldSetName="FieloPLT__ccPayoutItems" showCheckbox="false" filter="{!v.dataFilters}"/>
+        </aura:if>
+
+        <c:Spinner />
+    </div>
+</aura:component>

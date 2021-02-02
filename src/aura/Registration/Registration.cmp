@@ -1,0 +1,96 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="RegistrationController"
+    access="global">
+    <aura:attribute name="showRegistration" type="Boolean" default="false" access="private" />
+    <aura:attribute name="showAgreement" type="Boolean" default="false" access="private" />
+
+    <aura:attribute name="program" type="String" access="private" />
+    <aura:attribute name="programs" type="FieloPLT__Program__c[]" access="private" />
+
+    <aura:attribute name="agreement" type="FieloPLT__Agreement__c" access="private" />
+
+    <aura:attribute name="registrationPrograms" type="String[]" access="private" />
+
+    <aura:attribute name="agreementChecked" type="Boolean" />
+
+    <aura:attribute name="hasAgreement" type="Boolean" access="private" />
+
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent" />
+    <aura:registerEvent name="hideRegistration" type="c:HideRegistrationEvent" />
+
+    <aura:handler event="c:ToggleRegistrationEvent" action="{!c.toggleRegistration}" />
+
+    <aura:attribute name="configDefault" type="String" default='{"filterFields":"CreatedDate/range","fieldset":[{"apiName":"FieloPLT__ExternalURL__c","type":"image","label":{"type":"default"},"showLabel":false},{"apiName":"FieloPLT__Description__c","type":"output","label":{"type":"default"},"showLabel":false}],"recordDetail":{"type":"newPage","sections":[{"title":{"type":"text","value":"Description"},"rows":[[{"type":"output","apiName":"FieloPLT__Description__c","label":{"type":"default"},"showLabel":false}]]}]}}'
+    />
+
+    <aura:attribute name="buttons" type="sObject[]" default='[{"type":"subcomponent","subcomponent":"FieloPLT:JoinProgramBtn"}]'
+    />
+
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="titleValue" access="global" />
+    <aura:attribute name="programList" type="String" access="global" />
+    <aura:attribute name="showFilter" type="Boolean" access="global" />
+    <aura:attribute name="filterFields" type="String" access="global" />
+    <aura:attribute type="Boolean" name="enableSortBy" access="global" />
+    <aura:attribute type="String" name="sortByFields" access="global" />
+    <aura:attribute name="fields" type="String" access="global" />
+    <aura:attribute name="recordDetailFieldset" type="String" access="global" />
+    <aura:attribute type="String" name="layout" access="global" />
+    <aura:attribute type="String" name="columns" access="global" />
+    <aura:attribute name="layoutType" type="String" access="global" />
+    <!-- DESIGN ATTRIBUTES -->
+
+    <aura:attribute name="fieldset" type="String" />
+    <aura:attribute name="programFields" type="String" />
+    <aura:attribute name="programRecord" type="FieloPLT__Program__c" />
+    <aura:attribute type="String" name="title" />
+    <aura:attribute type="Boolean" name="showTitle" default="false" />    
+    <aura:attribute type="String" name="programBanner" />
+    <aura:attribute type="Boolean" name="showProgramFields" default="false" />
+    <!-- ERROR -->
+    <aura:attribute name="showError" type="Boolean" />
+    <aura:attribute name="error" type="String" />
+    <!-- ERROR -->
+
+    <!-- JOIN BUTTON -->
+    <aura:handler name="JoinProgramEvent" event="c:JoinProgramEvent" action="{!c.updateProgramInfo }" />
+    <!-- JOIN BUTTON -->
+
+    <!-- RECORD DETAIL -->
+    <aura:attribute name="recordDetailListviews" type="sObject" />
+    <aura:attribute name="recordDetailFields" type="String[]" />
+    <aura:attribute name="recordDetailConfig" type="sObject" />
+    <aura:attribute name="recordDetail" type="sObject" />
+    <aura:handler name="showRecord" event="c:ShowRecordEvent" action="{!c.showProgram}" />
+    <!-- RECORD DETAIL -->
+    
+    <!-- PAGINADOR -->
+    <aura:attribute name="quantity" type="Integer" access="global" />
+    <aura:attribute name="paging" type="Boolean" access="global" />
+    <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" />
+    <!-- PAGINADOR -->
+
+    <aura:attribute type="String" name="orderBy"/>
+    <aura:attribute name="filterFieldset" type="String" access="private" />
+    <aura:attribute name="sortByFieldset" type="sObject[]" access="private" />
+    <aura:attribute name="dynamicFilter" type="String" access="private"/>
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+    <aura:if isTrue="{!v.showRegistration}">
+        <aura:if isTrue="{!and(v.showFilter, v.filterFieldset)}">
+            <c:Filter fields="{!v.filterFieldset}" objectAPIName="FieloPLT__Program__c" filterRecords="{!c.filter}" showSortBy="{!v.enableSortBy}" sortByFieldset="{!v.sortByFieldset}" />
+        </aura:if>
+        <c:ListView buttons="{!v.buttons}" showToggleBtn="true" columns="{!v.columns}" layout="{!v.layout}" layoutType="{!v.layoutType}"
+            recordDetailConfig="{!v.recordDetailConfig}" recordDetail="{!v.recordDetail}" objectAPIName="FieloPLT__Program__c"
+            records="{!v.programs}" fieldset="{!v.fieldset}" title="{!v.title}" quantity="{!v.quantity}" paging="{!v.paging}" />
+    </aura:if>
+
+    <c:ProgramAgreement aura:id="programAgreement" hasAgreement="{!c.toggleAgreement}" checkAgreement="{!c.register}" showAgreement="{!v.showAgreement}" registration="true" showCheckbox="true" />
+    
+    <c:Spinner />
+    
+    <aura:if isTrue="{!v.showError}">
+        <FieloPLT:Error error="{!v.error}" />
+    </aura:if>
+
+</aura:component>

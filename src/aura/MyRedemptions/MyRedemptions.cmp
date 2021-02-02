@@ -1,0 +1,90 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="MyRedemptionsController"
+  access="global">
+
+  <aura:attribute name="member"  type="Member__c" />
+  <aura:attribute name="showBackButton"  default="false" type="Boolean"  />
+
+  <aura:registerEvent name="toggleSpinnerEvent"  type="c:ToggleSpinnerEvent" />
+  <aura:attribute name="configDefault" type="String"  default='{"quantity":5,"filterFields":"CreatedDate/range,FieloPLT__Points__c","fieldset":[{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Points__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Status__c","label":{"type":"default"},"showLabel":true}],"recordDetail":{"sections":[],"relatedLists":[{"title":{"type":"text","value":"Redemption Items"},"objectRelation":"FieloPLT__RedemptionItems__r","objectAPIName":"FieloPLT__RedemptionItem__c","fieldset":[{"type":"image","apiName":"FieloPLT__Reward__r.FieloPLT__ExternalURL__c","label":{"type":"default"},"showLabel":false},{"type":"output","apiName":"FieloPLT__Reward__r.Name","label":{"type":"default"},"showLabel":false},{"type":"output","apiName":"FieloPLT__Points__c","label":{"type":"default"},"showLabel":false}]}],"subcomponents":[]}}'
+  />
+
+  <!-- DESIGN ATTRIBUTES -->
+  <aura:attribute name="titleValue" type="String"  access="global" />
+  <aura:attribute name="layout" type="String"  access="global" />
+  <aura:attribute name="columns" type="String"  access="global" />
+
+  <aura:attribute name="showFilter" type="Boolean" access="global" />
+  <aura:attribute name="filterFields" type="String" access="global" />
+  <aura:attribute type="Boolean" name="enableSortBy" access="global" />
+  <aura:attribute type="String" name="sortByFields" access="global" />
+
+  <aura:attribute name="fields" type="String" access="global" />
+  <aura:attribute name="recordDetailFieldset" type="String" access="global" />
+  <aura:attribute name="showRedemptionItemRelated" type="Boolean" access="global" />
+  <aura:attribute name="redemptionItemRelatedFields" type="String" access="global" />
+
+  <!-- DESIGN ATTRIBUTES -->
+  
+  <aura:attribute type="String" name="orderBy" default="CreatedDate DESC"/>
+  <aura:attribute name="sortByFieldset" type="sObject[]" access="private" />
+  <aura:attribute name="fieldset" type="sObject[]" access="private" />
+  <aura:attribute name="filterFieldset" type="String" access="private" />
+  <aura:attribute name="title" type="String" access="private" />
+
+  <aura:attribute name="showRecords" type="Boolean" default="false" access="private" />
+  <aura:attribute name="records" type="sObject[]" access="private" />
+  <aura:attribute name="condition" type="String" access="private" />
+
+  <!-- FILTER -->
+  <aura:attribute name="dynamicFilter" type="String" />
+  <aura:attribute name="overrideHelptext" type="Map" />
+  <aura:attribute name="defaultPicklistOptions" type="sObject" />
+  <!-- FILTER -->
+
+  <!-- PAGINADOR -->
+  <aura:attribute name="paging" type="Boolean" access="global" />
+  <aura:attribute name="quantity" type="Integer" access="global" />
+  <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" default="false" />
+  <!-- PAGINADOR -->
+
+  <!-- ERROR -->
+  <aura:attribute name="showError" type="Boolean" />
+  <aura:attribute name="error" type="String" />
+  <!-- ERROR -->
+
+  <!-- RECORD DETAIL -->
+  <aura:attribute name="recordDetailListviews" type="sObject" />
+  <aura:attribute name="recordDetailFields" type="String[]" />
+  <aura:attribute name="recordDetailConfig" type="sObject" />
+  <aura:attribute name="recordDetail" type="sObject" />
+  <aura:handler name="showRecord" event="c:ShowRecordEvent" action="{!c.showRedemption}" />
+  <!-- RECORD DETAIL -->
+
+  <!-- registers -->
+  <aura:registerEvent name="backToCatalog" type="c:BackEvent" />
+
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+  <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}" />
+  <div>
+    <aura:if isTrue="{!v.showBackButton}">
+      <lightning:button class="fielo-redemption__back-button slds-text-body_small" variant="base" label="{!$Label.c.BackToCatalog}" title="{!$Label.c.BackToCatalog}" onclick="{!c.handleBackClick}" />
+    </aura:if>
+    <aura:if isTrue="{!!empty(v.title)}">
+      <h3 class="slds-section-title--divider">{!v.title}</h3>
+    </aura:if>
+
+    <aura:if isTrue="{!and(v.showFilter, v.filterFieldset)}">
+      <c:Filter defaultOptions="{!v.defaultPicklistOptions}" overrideHelptext="{!v.overrideHelptext}" fields="{!v.filterFieldset}" objectAPIName="FieloPLT__Redemption__c" filterRecords="{!c.filter}" showSortBy="{!v.enableSortBy}" sortByFieldset="{!v.sortByFieldset}" />             
+    </aura:if>
+    <aura:if isTrue="{!v.showRecords}">
+      <c:ListView recordDetailConfig="{!v.recordDetailConfig}" recordDetail="{!v.recordDetail}" objectAPIName="FieloPLT__Redemption__c" paging="{!v.paging}" quantity="{!v.quantity}" records="{!v.records}" columns="{!v.columns}" layout="{!v.layout}" fieldset="{!v.fieldset}" class="fielo-list--is-redemptions" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.showError}">
+      <c:Error error="{!v.error}" />
+    </aura:if>
+
+    <c:Spinner />
+  </div>
+</aura:component>

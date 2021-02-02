@@ -1,0 +1,11 @@
+<aura:component >
+    <aura:attribute name="record" type="String"/>
+    <aura:attribute name="config" type="String"/>
+    <aura:attribute name="name" type="String" />
+    <aura:attribute name="type" type="String" />
+    <aura:attribute name="fieldName" type="String" />
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+    {!v.body}
+</aura:component>

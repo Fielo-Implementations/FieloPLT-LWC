@@ -1,0 +1,69 @@
+<aura:component controller="LookupController">
+    <aura:attribute type="String" name="objectName" default="Account"/>
+    <aura:attribute type="sObject" name="selectedRecord"/>
+    <aura:attribute type="Boolean" name="showLabel"/>
+    <aura:attribute type="Object" name="field"/>
+    <aura:attribute type="String" name="searchValue"/>
+    <aura:attribute type="String" name="inputValue"/>
+    <aura:attribute type="String" name="autocomplete" default="off"/>
+    <aura:attribute type="SObject[]" name="options" />
+    <aura:attribute type="SObject[]" name="optionsCache" />
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <aura:method name="getValue" action="{!c.getValue}">
+    </aura:method>
+
+    <div class="slds-form-element" title="{!v.field.attributes.tooltip}" oninput="{!c.filterRecords}">
+        <aura:if isTrue="{!v.showLabel}">
+            <label class="slds-form-element__label" for="combobox-id-2">{!v.field.attributes.label}</label>
+        </aura:if>
+        <div class="slds-form-element__control">
+            <div aura:id="slds-combobox-container" class="{! 'slds-combobox_container' + (v.selectedRecord.Id == null ? '' : ' slds-has-selection')}">
+                <div aura:id="fielo-lookup-combobox" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                    <div aura:id="fielo-lookup-combobox-form-element" class="{!'slds-combobox__form-element slds-input-has-icon' + (v.selectedRecord.Id != null ? ' slds-input-has-icon_left-right ' : ' slds-input-has-icon_right') }" role="none">
+                        <aura:if isTrue="{!v.selectedRecord.Id == null}">
+                            <input aura:id="fielo-lookup-input" data-record-id="{!v.selectedRecord.Id}" type="text" class="slds-input slds-combobox__input" id="combobox-id-2" autocomplete="new-password" aria-autocomplete="none" placeholder="{!$Label.c.SearchForTerm}" value="{!v.inputValue}" onfocus="{!c.showOptions}" onfocusout="{!c.hideOptions}" />
+                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right fielo-lookup-search-button" onmousedown="{!c.openSearchModal}">
+                                <lightning:icon iconName="utility:search" size="x-small" alternativeText="search"/>
+                            </span>
+                            <aura:set attribute="else">
+                                <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title="{!$Label.c.Record}">
+                                    <lightning:icon iconName="standard:record" size="x-small" alternativeText="{!$Label.c.Record}"/>
+                                    <span class="slds-assistive-text">{!$Label.c.Record}</span>
+                                </span>
+                                <input aura:id="fielo-lookup-input" data-record-id="{!v.selectedRecord.Id}" type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-2" autocomplete="off" role="textbox" placeholder="{!$Label.c.SelectAnOption}" readonly="true" value="{!v.selectedRecord.Name}" title="{!v.selectedRecord.Name}" />
+                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="{!$Label.c.Remove}" onclick="{!c.removeRecord}">
+                                    <lightning:icon iconName="utility:close" size="x-small" alternativeText="{!$Label.c.Remove}"/>
+                                    <span class="slds-assistive-text">{!$Label.c.Remove}</span>
+                                </button>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <div id="listbox-id-2" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <aura:if isTrue="{! and(v.searchValue!=null, v.searchValue != '')}">
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option" onmousedown="{!c.openSearchModal}">
+                                        <span class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-utility-search" title="{!$Label.c.SearchForTerm}">
+                                                <lightning:icon iconName="utility:search" size="x-small" alternativeText="{!$Label.c.SearchForTerm}"/>
+                                                <span class="slds-assistive-text">{!$Label.c.SearchForTerm} </span>
+                                            </span>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!v.searchValue}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </aura:if>
+                            <aura:iteration items="{!v.options}" var="option" >
+                                <c:LookupItem field="{!v.field}" option="{!option}" selectOption="{!c.optionSelected}"/>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,33 @@
+.THIS .fielo-helptext {
+  margin-left: .5rem;
+  position: relative;
+  top: -2px;
+}
+
+.THIS .fielo-helptext .slds-button {
+  color: #0070D2;
+}
+
+.THIS .fielo-helptext.slds-form-element:nth-of-type(n) {
+  padding: 0;
+}
+
+.THIS .slds-form-element__label {
+  color: #54698D;
+  font-size: 0.85rem;
+}
+
+
+.THIS .slds-input {
+  border-color: #A8B7C7;
+  color: #54698D;
+  font-size: 12px;
+}
+
+.THIS .fielo-type--number {
+  width: 72px;
+}
+
+.THIS .fielo-type--select.slds-form-element:nth-of-type(1) .slds-form-element__label {
+  display: none;
+}

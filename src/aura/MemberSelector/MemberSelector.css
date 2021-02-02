@@ -1,0 +1,116 @@
+.THIS.hidden{
+    display: none;
+}
+
+.THIS{
+    border: none;
+}
+
+.THIS.slds-card {
+    position:relative;
+}
+.THIS .slds-select{
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+}
+
+.THIS .fielosf-profile-item, .THIS .inline{
+    display: inline-block;
+}
+.THIS .profile-icon{
+    background: token(colorBrand);
+}
+
+.THIS .fielosf-profile-item{    
+    text-align: left;
+}
+
+.THIS .slds-form-element__label{
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    color: #54698D;
+}
+
+.THIS .fielo-output{
+    padding-top: 2px;
+    color: #16325C;
+    font-size: 20px;
+}
+
+.THIS .slds-select_container:before{
+    content: none;
+}
+
+.THIS .slds-select:focus{
+    box-shadow: none;
+}
+
+.THIS .slds-select:hover{
+    cursor: pointer;
+}
+
+.THIS .slds-select:active{
+    box-shadow: none;
+}
+
+.THIS .slds-select_container:after{
+    top: 15px;
+}
+
+.THIS .profile-image{
+    float:left;    
+}
+
+.THIS .profile-image img{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;    
+}
+
+.THIS .programSelect .slds-select{
+    padding-left: 0;
+}
+
+.THIS .programSelect.oneItem .slds-select, .THIS .memberSelect.oneItem .slds-select{
+    pointer-events: none;
+}
+
+.THIS .programSelect.oneItem .slds-select:hover, .THIS .memberSelect.oneItem .slds-select:hover{
+    cursor: default;
+}
+
+.THIS .programSelect.oneItem .slds-select_container:after, .THIS .memberSelect.oneItem .slds-select_container:after{
+    content: none;
+}
+
+.THIS .memberSelect .slds-form-element__label, .THIS .programSelect .slds-form-element__label{
+    display:none;
+}
+
+.THIS .subfield{
+    position: absolute;
+    left: 50px;
+    padding-left: 0.5rem;
+    top: 20px;
+}
+
+.THIS .subfield .fielo-output{
+    font-size: 15px;
+}
+
+.THIS .member-item{
+    position: relative;
+}
+
+.THIS .item{
+    display: inline-block;
+    margin-right: 40px;
+}
+@media only screen and (max-width: 47.9375em){
+    .THIS .item{
+        display: block;
+        overflow: auto;
+        margin-bottom: 20px;
+    }
+}

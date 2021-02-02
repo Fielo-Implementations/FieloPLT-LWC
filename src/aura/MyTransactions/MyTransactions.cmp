@@ -1,0 +1,85 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="MyTransactionsController"
+    access="global">
+
+    <aura:attribute name="configDefault" type="String" access="global" default='{"filterFields":"CreatedDate/range","listviews":[{"title":{"type":"Picklist","value":"FieloPLT__Type__c.Adjustment"},"paging":true,"quantity":5,"layout":"table","condition":"[{\"field\":\"FieloPLT__Type__c\",\"value\":\"Adjustment\",\"operator\": \"equals\"}]","fieldset":[{"type":"subcomponent","subcomponent":"FieloPLT:TransactionTypeIcon","apiName":"FieloPLT__Type__c"},{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"colorNumber","apiName":"FieloPLT__Points__c","label":{"type":"default"},"showLabel":true},{"type":"date","apiName":"FieloPLT__Date__c","label":{"type":"default"},"showLabel":true}],"recordDetail":{"sections":[{"title":{"type":"text","value":"Information"},"rows":[[{"type":"number","apiName":"FieloPLT__Points__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Type__c","label":{"type":"default"},"showLabel":true},{"type":"checkbox","apiName":"FieloPLT__IsProcessed__c","label":{"type":"default"},"showLabel":true},{"type":"checkbox","apiName":"FieloPLT__IsReverted__c","label":{"type":"default"},"showLabel":true}]]}],"relatedLists":[{"title":{"type":"text","value":"Points"},"objectRelation":"FieloPLT__Points__r","objectAPIName":"FieloPLT__Point__c","fieldset":[{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Rule__r.Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__ChallengeReward__r.Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__TotalPoints__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__UsedPoints__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__ExpiredPoints__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Balance__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Status__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__ExpirationDate__c","label":{"type":"default"},"showLabel":true}]},{"title":{"type":"text","value":"Badge Members"},"objectRelation":"FieloPLT__BadgesMembers__r","objectAPIName":"FieloPLT__BadgeMember__c","fieldset":[{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Badge__r.Name","label":{"type":"default"},"showLabel":true}]},{"title":{"type":"text","value":"Redemptions"},"objectRelation":"FieloPLT__Redemptions__r","objectAPIName":"FieloPLT__Redemption__c","fieldset":[{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Status__c","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__Rule__r.Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"FieloPLT__ChallengeReward__r.Name","label":{"type":"default"},"showLabel":true}]}],"subcomponents":[]}}]}'
+    />
+
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute name="useAdvancedOnly" type="Boolean" access="global" />
+    <aura:attribute name="config" type="String" access="global" />
+
+    <aura:attribute type="String" name="titleValue" access="global"/>
+    <aura:attribute type="String" name="layout" access="global" default="table"/>
+
+    <aura:attribute type="String" name="columns" access="global" />
+
+    <aura:attribute name="quantity" type="Integer" access="global" />
+    <aura:attribute name="paging" type="Boolean" access="global" />
+
+    <aura:attribute name="showDateFilter" type="Boolean" access="global" />
+    <aura:attribute name="filterFields" type="String" access="global" />
+    
+    <aura:attribute type="Boolean" name="enableSortBy" access="global" />
+    <aura:attribute type="String" name="sortByFields" access="global" />
+
+    <aura:attribute name="fields" type="String" access="global" />
+
+
+    <aura:attribute name="recordDetailFieldset" type="String" access="global" />
+
+    <aura:attribute name="showPointRelated" type="Boolean" access="global" />
+    <aura:attribute name="pointRelatedFields" type="String" access="global" />
+
+    <aura:attribute name="showBadgeMemberRelated" type="Boolean" access="global" />
+    <aura:attribute name="badgeMemberRelatedFields" type="String" access="global" />
+
+    <aura:attribute name="showRedemptionRelated" type="Boolean" access="global" />
+    <aura:attribute name="redemptionRelatedFields" type="String" access="global" />
+
+    <!-- <aura:attribute name="collapsible" type="Boolean" access="global" />
+    <aura:attribute name="type" type="String" access="global" />     -->
+
+    <!-- DESIGN ATTRIBUTES -->
+
+    <aura:attribute name="filterFieldset" type="String" access="private" />
+    <aura:attribute name="listviews" type="sObject[]" access="private" />
+    <aura:attribute name="member" type="FieloPLT__Member__c" />
+    <aura:attribute name="showTransactions" type="Boolean" default="false" access="private" />
+
+    <aura:attribute name="title" type="String" access="private" />
+    <aura:attribute type="String" name="orderBy" default="CreatedDate DESC"/>
+    <aura:attribute name="sortByFieldset" type="sObject[]" access="private" />
+    <aura:attribute name="showHeader" type="Boolean" default="false" access="private" />
+    <aura:attribute name="dynamicFilter" type="String" />
+
+    <!-- ERROR -->
+    <aura:attribute name="showError" type="Boolean" />
+    <aura:attribute name="error" type="String" />
+    <!-- ERROR -->
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}" />
+        
+    <aura:if isTrue="{!v.showHeader}">
+        <aura:if isTrue="{!!empty(v.title)}">
+            <h3 class="slds-section-title--divider">{!v.title}</h3>
+        </aura:if>
+        <aura:if isTrue="{!and(v.showDateFilter, v.filterFieldset)}">
+            <c:Filter aura:id="fielo-transaction__filter" fields="{!v.filterFieldset}" objectAPIName="FieloPLT__Transaction__c" filterRecords="{!c.filter}" showSortBy="{!v.enableSortBy}" sortByFieldset="{!v.sortByFieldset}" />
+        </aura:if>
+    </aura:if>
+
+    <aura:if isTrue="{!v.showTransactions}">
+        <aura:iteration var="listview" items="{!v.listviews}">
+            <FieloPLT:TransactionList aura:id="transactionList" member="{!v.member}" recordDetailConfig="{!listview.recordDetail}" layout="{!listview.layout}"
+                quantity="{!listview.quantity}" condition="{!listview.condition}" paging="{!listview.paging}" fieldset="{!listview.fieldset}"
+                title="{!listview.title}" dynamicFilter="{!v.dynamicFilter}" orderBy="{!v.orderBy}" />
+        </aura:iteration>
+    </aura:if>
+
+    <aura:if isTrue="{!v.showError}">
+        <c:Error error="{!v.error}" />
+    </aura:if>
+
+    <c:Spinner />
+</aura:component>

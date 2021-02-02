@@ -1,0 +1,13 @@
+.THIS .inline {
+    display: inline;
+    font-weight: bold;
+    color: #c33a35;
+}
+
+.THIS .error-icon .slds-icon{
+    fill: #c33a35;
+}
+
+.THIS .error-msg{
+	padding-left:45px;    
+}

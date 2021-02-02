@@ -1,0 +1,152 @@
+.THIS {
+  margin: 20px 0.25rem 0;
+}
+
+.THIS.no-border, .THIS .no-border.slds-grid{
+    border: none;
+}
+
+.THIS .slds-grid {
+  border: 1px solid #D8DDE6;
+}
+
+.THIS .card-list-view {
+  border: none;
+}
+
+.THIS img {
+  max-width: 180px;
+}
+
+.THIS .noRecords,
+.THIS .noRecords {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.THIS .slds-section-title--divider {
+  background: none;
+  text-transform: none;
+  font-weight: 700;
+    color: #54698d;
+}
+
+.THIS .title-container {
+  position: relative;
+}
+
+.THIS .layout-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.THIS .layout-btn.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.THIS .layout-btn .slds-button__icon {
+  margin-right: 0;
+}
+
+.THIS .slds-accordion__summary-heading {
+  font-weight: 700;
+}
+
+.THIS .slds-table {
+  border: 1px solid rgb(212, 212, 212);
+}
+
+.THIS .slds-table .header-labels {
+  font-weight: 600;
+}
+
+.THIS .fielo-accordion__container .header {
+  display: flow-root;
+}
+
+.THIS .slds-section-subtitle {
+  color: #54698D;
+  font-size: 18px;
+  padding-left: 16px;
+  padding-bottom: 16px;
+}
+
+.THIS .no-padding {
+  padding-bottom: 0;
+}
+
+.THIS.breadcrumb {
+  text-transform: uppercase;
+}
+
+.THIS .fielo-accordion__toolbar {
+  text-align: right;
+}
+
+.THIS .fielo-accordion__container {
+  border: 1px #D8DDE6 solid;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.THIS .accordion .slds-grid {
+  border: none;
+}
+
+.THIS .accordion .body {
+  border-bottom: 1px #D8DDE6 solid;
+  margin-bottom: 10px;
+}
+
+.THIS .accordion .body.closed {
+  display: none;
+}
+
+.THIS .accordion .header.closed {
+  border-bottom: 1px #D8DDE6 solid;
+  padding-bottom: 12px;
+}
+
+.THIS .fielo-accordion__container div:nth-last-child(1),
+.THIS .fielo-accordion__container div:nth-last-child(2) {
+  border: none !important;
+}
+
+.THIS .accordion .header:hover {
+  cursor: pointer;
+}
+
+.THIS .accordion .header.closed .icon-sub {
+  display: none;
+}
+
+.THIS .accordion .header .icon-sub {
+  display: inline-block;
+}
+
+.THIS .accordion .header .icon-plus {
+  display: none;
+}
+
+.THIS .accordion .header.closed .icon-plus {
+  display: inline-block;
+}
+
+.THIS .accordion .accordion-icon,
+.THIS .title {
+  display: inline-block;
+}
+
+.THIS .accordion .title {
+  position: relative;
+  top: 1px;
+}
+
+.THIS .accordion-icon {
+  display: none;
+}
+
+.THIS .only-toggle {
+  min-height: 49px
+}
