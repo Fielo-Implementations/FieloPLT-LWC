@@ -1,11 +1,11 @@
 <aura:component controller="MemberSelectorController" implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes"
                 access="global">
     
-    <aura:attribute type="Member__c[]" name="members" access="private" />
-    <aura:attribute type="Member__c" name="memberInfo" access="private" />
+    <aura:attribute type="FieloPLT__Member__c[]" name="members" access="private" />
+    <aura:attribute type="FieloPLT__Member__c" name="memberInfo" access="private" />
     
     <aura:attribute type="sObject[]" name="programs" access="private" />
-    <aura:attribute type="Program__c" name="programInfo" access="private" />
+    <aura:attribute type="FieloPLT__Program__c" name="programInfo" access="private" />
     
     <aura:attribute type="sObject[]" name="fieldset" default="[]" access="private" />
     

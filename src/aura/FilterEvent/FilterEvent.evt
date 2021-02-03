@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Called By Filter">
+    <aura:attribute name="condition" type="String"/>
+    <aura:attribute name="orderBy" type="String"/>
+</aura:event>

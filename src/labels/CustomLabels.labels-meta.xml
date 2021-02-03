@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
-    <labels>
+    <!--<labels>
         <fullName>Accomplished</fullName>
         <categories>MissionProgress.cmp</categories>
         <language>en_US</language>
@@ -2429,7 +2429,7 @@
         <protected>true</protected>
         <shortDescription>Change Reward Scheme Warning</shortDescription>
         <value>Changing the Rewarding Scheme will delete all rewards assigned to this challenge. Are you sure?</value>
-    </labels>
+    </labels>-->
     <labels>
         <fullName>ChangeView</fullName>
         <language>en_US</language>
@@ -2437,7 +2437,7 @@
         <shortDescription>Change View</shortDescription>
         <value>Change View</value>
     </labels>
-    <labels>
+    <!--<labels>
         <fullName>CheckEmail</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13700,5 +13700,5 @@ Codes must be unique. They can be any combination of letters and numbers, have a
         <protected>false</protected>
         <shortDescription>Never</shortDescription>
         <value>Never</value>
-    </labels>
+    </labels>-->
 </CustomLabels>

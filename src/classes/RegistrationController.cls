@@ -48,7 +48,7 @@ public with sharing class RegistrationController {
     @auraEnabled
     public static String getObjectData(){                
         try{                                                        
-            return AuraService.getObjectData('FieloPLT__Program__c');            
+            return Fielo_AuraService.getObjectData('FieloPLT__Program__c');            
         } catch(Exception e){
             throw new AuraHandledException(e.getMessage());
         }                

@@ -4,7 +4,7 @@
 }
 
 .THIS .active {
-  color: token(colorTextLink);
+  /*color: token(colorTextLink);*/
   font-weight: bold;
 }
 

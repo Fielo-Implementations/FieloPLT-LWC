@@ -79,14 +79,14 @@
             <h5 class="slds-section-subtitle">{!v.subtitle}</h5>
             <aura:if isTrue="{!v.showToggleBtn}">
               <lightning:button aura:id="change-layout-button" class="layout-btn" iconName="{!v.layout == 'table' || v.layout == 'Table'? 'utility:apps' : 'utility:list'}"
-                label="" name="{!$Label.c.ChangeView}" onclick="{!c.toggleLayout}" variant="neutral" />
+                label="" name="{!$FieloPLT.Label.c.ChangeView}" onclick="{!c.toggleLayout}" variant="neutral" />
             </aura:if>
           </div>
         </aura:if>
         <aura:if isTrue="{!and(v.showToggleBtn, not(v.title.length > 0))}">
           <div class="slds-m-top_small title-container only-toggle">
             <lightning:button aura:id="change-layout-button" class="layout-btn" iconName="{!v.layout == 'table' || v.layout == 'Table'? 'utility:apps' : 'utility:list'}"
-              label="" name="{!$Label.c.ChangeView}" onclick="{!c.toggleLayout}" variant="neutral" />
+              label="" name="{!$FieloPLT.Label.c.ChangeView}" onclick="{!c.toggleLayout}" variant="neutral" />
           </div>
         </aura:if>
     
@@ -133,9 +133,9 @@
               <div class="accordion">
                 <div class="fielo-accordion__toolbar">
                   <aura:if isTrue="{!v.collapsed}">
-                    <lightning:button label="{!$Label.c.ExpandAll}" name="{!$Label.c.ExpandAll}" onclick="{!c.collapseAll}" variant="neutral" />
+                    <lightning:button label="{!$FieloPLT.Label.c.ExpandAll}" name="{!$FieloPLT.Label.c.ExpandAll}" onclick="{!c.collapseAll}" variant="neutral" />
                     <aura:set attribute="else">
-                        <lightning:button label="{!$Label.c.CollapseAll}" name="{!$Label.c.CollapseAll}" onclick="{!c.collapseAll}" variant="neutral" />
+                        <lightning:button label="{!$FieloPLT.Label.c.CollapseAll}" name="{!$FieloPLT.Label.c.CollapseAll}" onclick="{!c.collapseAll}" variant="neutral" />
                     </aura:set>
                   </aura:if>
                 </div>
@@ -198,7 +198,7 @@
 
           <aura:set attribute="else">
             <div class="noRecords">
-              {!$Label.c.NoRecordsToShow}
+              {!$FieloPLT.Label.c.NoRecordsToShow}
             </div>
           </aura:set>
         </aura:if>

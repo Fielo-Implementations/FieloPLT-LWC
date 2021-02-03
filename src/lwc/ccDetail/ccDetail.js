@@ -1,6 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
-import getWiredFieldSet from '@salesforce/apex/AuraService.getWiredFieldSet';
-import getRecords from '@salesforce/apex/AuraService.getWiredRecords';
+import getWiredFieldSet from '@salesforce/apex/Fielo_AuraService.getWiredFieldSet';
+import getRecords from '@salesforce/apex/Fielo_AuraService.getWiredRecords';
 import { refreshApex } from '@salesforce/apex';
 
 export default class CcDetail extends LightningElement {

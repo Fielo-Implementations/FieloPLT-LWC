@@ -1,0 +1,75 @@
+<aura:component controller="Fielo_AuraService" >
+    <aura:attribute name="timeZone" type="String" />
+    <aura:attribute name="dateFormat" type="String" default="MM/dd/yyyy"/>
+    <aura:attribute name="record" type="sObject" />
+    <aura:attribute name="fieldName" type="String"  />
+    <aura:attribute name="content" type="String"  />
+    <aura:attribute name="subcomponent" type="String" />
+    <aura:attribute name="type" type="String"  default="output"/>
+    <aura:attribute name="class" type="String" default="" />
+    <aura:attribute name="blankValue" type="String" default="" />
+    <aura:attribute name="config" type="String"/>
+    <aura:attribute name="showSubcomponent" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="showImage" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="suffix" type="String" access="private" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div data-field-name="{!v.fieldName}" class="{!v.class + ' fielo-output'}" data-type="{!v.type}">
+        <aura:if isTrue="{!v.type == 'output'}" >
+            {!v.content}
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'number'}" >
+            <div class="number slds-text-align_right">
+                {!v.content}
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'currency'}">
+            <lightning:formattedNumber value="{!v.content}" style="currency" currencyCode="USD" currencyDisplayAs="symbol" />
+        </aura:if>
+        <aura:if isTrue="{!or(v.type == 'colorNumber', v.type == 'colornumber')}" >
+            <div class="{!v.content > 0 ? 'colorNumber green' : 'colorNumber red'}">
+                {!v.content}
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'link'}" >
+            <a href="{!v.content}" target="_blank">{!v.content}</a>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'input'}" >
+            <lightning:input value="{!v.content}" label="" />
+        </aura:if>        
+        <aura:if isTrue="{!and(v.type == 'image', v.showImage)}" >             
+            <aura:if isTrue="{!v.suffix.length > 0}">                
+                <img src="{!'/' + v.suffix + v.content}" />
+                <aura:set attribute="else">                    
+                    <img src="{!v.content}" />
+                </aura:set>
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'youtube-video'}" >
+            <div class="videoContainer">
+                <iframe class="video" src="{!'https://www.youtube.com/embed/' + v.content}" frameborder="0" ></iframe>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'pdf'}" >
+            <iframe src="{!v.content}" width="100%" height="500px" frameborder="0"></iframe>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'subcomponent'}" >
+            <aura:if isTrue="{!v.showSubcomponent}">
+                <c:Subcomponent fieldName="{!v.fieldName}" record="{!v.record}" name="{!v.content}" type="{!v.subcomponent}" config="{!v.config}" />
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'checkbox'}" >
+            <ui:inputCheckbox value="{!v.content}" class="disabled checkbox" />
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'date'}" >
+            <ui:inputDate class="disabled date" value="{!v.content}" format="{!v.dateFormat}" />
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'datetime'}" >
+            <ui:outputDateTime  value="{!v.content}" timezone="{!v.timeZone}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.type == 'richtext'}" >
+            {!v.content}
+        </aura:if>
+    </div>
+</aura:component>

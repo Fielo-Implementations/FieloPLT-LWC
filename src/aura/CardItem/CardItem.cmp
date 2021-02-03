@@ -26,9 +26,9 @@
                         <div class="slds-large-size_2-of-12">
                             <aura:if isTrue="{!v.objectAPIName == 'FieloPLT__Challenge__c'}">
                                 <aura:if isTrue="{!v.record.FieloPLT__TargetAudience__c == 'Team'}">
-                                    <lightning:icon class="challenge-audience" iconName="standard:groups" alternativeText="{!$Label.c.TargetAudienceTeam}" title="{!$Label.c.TargetAudienceTeam}"/>
+                                    <lightning:icon class="challenge-audience" iconName="standard:groups" alternativeText="{!$FieloPLT.Label.c.TargetAudienceTeam}" title="{!$FIeloPLT.Label.c.TargetAudienceTeam}"/>
                                     <aura:set attribute="else">
-                                            <lightning:icon class="challenge-audience" iconName="standard:avatar" alternativeText="{!$Label.c.TargetAudienceMember}" title="{!$Label.c.TargetAudienceMember}"/>
+                                            <lightning:icon class="challenge-audience" iconName="standard:avatar" alternativeText="{!$FieloPLT.Label.c.TargetAudienceMember}" title="{!$FieloPLT.Label.c.TargetAudienceMember}"/>
                                     </aura:set>
                                 </aura:if>
                             </aura:if>

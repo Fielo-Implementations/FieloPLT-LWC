@@ -64,7 +64,7 @@ public class ProfileController {
             DescribeSObjectResult badgesDescribe = ((sObject)Type.forName('FieloPLT__Badge__c').newInstance()).getSObjectType().getDescribe();
             DescribeSObjectResult payoutsDescribe = ((sObject)Type.forName('FieloPLT__Payout__c').newInstance()).getSObjectType().getDescribe();
 
-            String fields = AuraService.getFieldData(objectName, fieldNames, true);                        
+            String fields = Fielo_AuraService.getFieldData(objectName, fieldNames, true);                        
             Map<String, String> objectInfo = new Map<String, String>();            
             objectInfo.put('redemptionsLabel', redemptionsDescribe.getLabelPlural());
             objectInfo.put('transactionsLabel', transactionsDescribe.getLabelPlural());

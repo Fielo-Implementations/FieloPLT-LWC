@@ -1,0 +1,35 @@
+.THIS .videoContainer {
+    position: relative;
+    height: 0;
+    padding-bottom: 35%;
+    margin: auto;
+}
+.THIS .video {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 60%;
+    height: 100%;
+}
+
+.THIS .checkbox.disabled{
+    opacity: 1;
+    box-shadow: none !important;
+    pointer-events: none;
+}
+
+.THIS .date.disabled{
+    opacity: 1;
+    border: none;
+    max-width: 100px;
+    padding: 0;
+    background: transparent;
+}
+
+.THIS .green{
+    color: #39BC58;
+}
+
+.THIS .red{
+    color: #FC0000;
+}

@@ -51,12 +51,12 @@
           <aura:if isTrue="{!v.defaultPicklistValue.length > 0}">
             <option value="">{!v.defaultPicklistValue}</option>
             <aura:set attribute="else">
-              <option value="">{!$Label.c.None}</option>
+              <option value="">{!$FieloPLT.Label.c.None}</option>
             </aura:set>
           </aura:if>
         </aura:if>
         <aura:iteration items="{!v.renderPicklistEntries}" var="entry">
-          <option value="{!entry.value}" class="{!entry.cssClass}">{!entry.label}</option>
+          <option value="{!entry.value}" class="{!entry.cssClass}">{!FieloPLT.entry.label}</option>
         </aura:iteration>
       </lightning:select>
     </aura:if>

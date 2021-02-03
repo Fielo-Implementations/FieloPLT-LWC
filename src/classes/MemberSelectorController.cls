@@ -23,9 +23,9 @@ public class MemberSelectorController {
                 Map<Id, FieloPLT__Level__c> mapLevels = new Map<Id, FieloPLT__Level__c>([SELECT Id, Name FROM FieloPLT__Level__c WHERE Id IN: idsLevels]);
 
                 languageCode = UserInfo.getLanguage();
-                TranslationService.getTranslations(mapPrograms.values(), languageCode);
+                FieloPLT.TranslationService.getTranslations(mapPrograms.values(), languageCode);
                 if(!mapLevels.isEmpty()){
-                    TranslationService.getTranslations(mapLevels.values(), languageCode);
+                    FieloPLT.TranslationService.getTranslations(mapLevels.values(), languageCode);
                 }
                 
                 for(FieloPLT__Member__c member: members){
@@ -50,7 +50,7 @@ public class MemberSelectorController {
         DescribeSObjectResult objectDescribe = Schema.describeSObjects(new String[]{'FieloPLT__Member__c'})[0];		
 		mapFieldLabels.put('objectLabel', objectDescribe.getLabel());
 
-        for(Schema.SObjectField sfield: Member__c.sObjectType.getDescribe().fields.getMap().Values()){
+        for(Schema.SObjectField sfield: FieloPLT__Member__c.sObjectType.getDescribe().fields.getMap().Values()){
             Schema.Describefieldresult dfield = sfield.getDescribe();
             mapFieldLabels.put(dfield.getName(), dfield.getLabel());
         }

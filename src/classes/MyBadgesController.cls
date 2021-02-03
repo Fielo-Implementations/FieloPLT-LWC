@@ -36,8 +36,8 @@ public with sharing class MyBadgesController {
         map<String, map<String, String>> mapPicklistsValues = new map<String, map<String, String>>();
 
         for(String picklistAPIName: listPicklistsToTranslate){
-            if(Badge__c.sObjectType.getDescribe().fields.getMap().containsKey(picklistAPIName.toLowerCase())){
-                Schema.Describefieldresult dfield = (Badge__c.sObjectType.getDescribe().fields.getMap().get(picklistAPIName.toLowerCase())).getDescribe();
+            if(FieloPLT__Badge__c.sObjectType.getDescribe().fields.getMap().containsKey(picklistAPIName.toLowerCase())){
+                Schema.Describefieldresult dfield = (FieloPLT__Badge__c.sObjectType.getDescribe().fields.getMap().get(picklistAPIName.toLowerCase())).getDescribe();
                 if(String.ValueOf(dfield.getType()).toLowerCase() == 'picklist'){
                     mapPicklistsValues.put(picklistAPIName, new map<String, String>());
                     for (Schema.PicklistEntry pValues: dfield.getPicklistValues()) {
@@ -51,6 +51,6 @@ public with sharing class MyBadgesController {
     }
     @auraEnabled
     public static map<String, String> fieldLabels() {
-        return AuraService.getFieldLabels('BadgeMember');
+        return Fielo_AuraService.getFieldLabels('BadgeMember');
     }    
 }

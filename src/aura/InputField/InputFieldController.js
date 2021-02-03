@@ -8,7 +8,7 @@
 			){
 				component.get('v.picklistEntries').unshift(
 					{
-						label: $A.get("$Label.c.SelectAnOption"),
+						label: $A.get("$FieloPLT.Label.c.SelectAnOption"),
 						value: ""
 					})
 			}

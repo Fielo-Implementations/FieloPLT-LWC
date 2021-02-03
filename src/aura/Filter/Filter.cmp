@@ -25,9 +25,9 @@
         
       <div class="filter-show-hide">
         <aura:if isTrue="{!v.filterClosed}">
-            <a onclick="{!c.toggle}">{!$Label.c.ShowFilters}</a>
+            <a onclick="{!c.toggle}">{!$FieloPLT.Label.c.ShowFilters}</a>
             <aura:set attribute="else">
-                <a onclick="{!c.toggle}">{!$Label.c.HideFilters}</a>
+                <a onclick="{!c.toggle}">{!$FieloPLT.Label.c.HideFilters}</a>
             </aura:set>
         </aura:if>
         </div>
@@ -42,7 +42,7 @@
                 <div class="inline">
                   <c:InputField aura:id="rangeInputFrom" type="{!field.attributes.inputType}" fieldName="{!field.attributes.name}" helptext="{!field.attributes.helpText}" picklistEntries="{!field.picklistentries}" label="{!field.attributes.label}" />
                 </div>
-                <div class="inline divider fielo-filter__range-label">{!$Label.c.To}</div>
+                <div class="inline divider fielo-filter__range-label">{!$FieloPLT.Label.c.To}</div>
                 <div class="inline">
                   <c:InputField aura:id="rangeInputTo" type="{!field.attributes.inputType}" fieldName="{!field.attributes.name}" helptext="{!field.attributes.helpText}" picklistEntries="{!field.picklistentries}" label="{!field.attributes.label}" showLabel="false" />
                 </div>
@@ -58,12 +58,12 @@
 
           <aura:if isTrue="{!v.showSortBy}">
             <div class="inline item">
-              <c:InputField type="picklist" fieldName="" helptext="{!$Label.c.SortByHelpText}" picklistEntries="{!v.sortByEntries}" label="{!$Label.c.SortBy}" field="" aura:id="fielo-filter__sort-by" />
+              <c:InputField type="picklist" fieldName="" helptext="{!$FieloPLT.Label.c.SortByHelpText}" picklistEntries="{!v.sortByEntries}" label="{!$FieloPLT.Label.c.SortBy}" field="" aura:id="fielo-filter__sort-by" />
             </div>
           </aura:if>
 
           <div class="fielo-filter__submit-container inline item">
-            <lightning:button label="{!$Label.c.Filter}" class="filterBtn" variant="brand" onclick="{!c.filter}" />
+            <lightning:button label="{!$FieloPLT.Label.c.Filter}" class="filterBtn" variant="brand" onclick="{!c.filter}" />
           </div>
         </div>
       </div>
