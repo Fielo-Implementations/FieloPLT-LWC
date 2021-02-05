@@ -29,11 +29,11 @@
     <aura:attribute type="String" name="redemptionsLabel" />
 
 
-    <aura:attribute type="Boolean" name="hasConsents" default="false" />
+    <!--<aura:attribute type="Boolean" name="hasConsents" default="false" />-->
 
     <aura:attribute type="String" name="title" />
     <aura:attribute type="Boolean" name="viewMode" default="true" />
-    <aura:attribute type="Boolean" name="showConsents" default="false" />
+    <!--<aura:attribute type="Boolean" name="showConsents" default="false" />-->
     <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
     <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}" />
 
@@ -74,10 +74,10 @@
                         <aura:if isTrue="{!v.viewMode}">
                             <lightning:button class="profile-btn slds-m-right--large" label="{!$FieloPLT.Edit}" name="edit" onclick="{!c.editMember}" variant="neutral"
                             />
-                            <aura:if isTrue="{!v.hasConsents}">
-                                <lightning:button class="profile-btn slds-m-right--large" label="{!$FieloPLT.UpdatePreferences}" name="{!$FieloPLT.UpdatePreferences}" onclick="{!c.manageConsents}" variant="neutral"
+                           <!-- <aura:if isTrue="{!v.hasConsents}">
+                                <lightning:button class="profile-btn slds-m-rightlarge" label="{!$FieloPLT.UpdatePreferences}" name="{!$FieloPLT.UpdatePreferences}" onclick="{!c.manageConsents}" variant="neutral"
                                 />
-                            </aura:if>
+                            </aura:if>-->
                         </aura:if>
                         <aura:if isTrue="{!v.showMember}">
                             <aura:if isTrue="{!v.viewMode}">

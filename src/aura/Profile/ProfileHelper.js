@@ -37,7 +37,7 @@
         var fields = component.get('v.fieldsEdit');
         var fieldsAction = component.get('c.getFields');        
         fieldsAction.setParams({
-            'objectName': 'Member__c',
+            'objectName': 'FieloPLT__Member__c',
             'fieldNames': fields
         });        
         // Add callback behavior for when response is received

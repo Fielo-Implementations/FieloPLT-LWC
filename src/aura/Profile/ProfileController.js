@@ -132,10 +132,10 @@
             }
         }
     },
-    manageConsents: function(component, event, helper) {
+    /*manageConsents: function(component, event, helper) {
         component.set('v.showConsents', true);
     },
     hasConsents: function(component, event, helper) {
         component.set('v.hasConsents', event.getParam('hasConsents'));
-    }
+    }*/
 })
