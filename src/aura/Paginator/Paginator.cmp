@@ -1,0 +1,16 @@
+<aura:component >
+    <aura:attribute name="page" type="Integer" default="0"/>
+    <aura:attribute name="quantity" type="Integer"  default="5"/>
+    <aura:attribute name="lastPage" type="Boolean" default="false" />
+    <aura:attribute name="cssClass" type="String" />
+        
+    <aura:registerEvent name="paging" type="c:PaginatorEvent"/>
+    
+    <aura:attribute name="offset" type="Integer"/>  
+    <div class="{!v.cssClass + ' paginator'}">
+        <lightning:buttonGroup >                                        
+            <lightning:button iconName="utility:chevronleft" class="{!v.page == 0 ? 'disabled paginatorBtn' : 'paginatorBtn'}" variant="neutral" onclick="{!c.previous}" />
+            <lightning:button iconName="utility:chevronright" class="{!v.lastPage ? 'disabled paginatorBtn' : 'paginatorBtn'}" variant="neutral" onclick="{!c.next}" />                        
+        </lightning:buttonGroup>                
+    </div>        
+</aura:component>

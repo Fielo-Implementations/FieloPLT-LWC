@@ -250,7 +250,7 @@ public class Fielo_AuraService {
         }
         return pref;
     }
-
+*/
     // Code used by communities and backend
     @AuraEnabled
     public static String getObjectData(String objectName) {
@@ -272,7 +272,7 @@ public class Fielo_AuraService {
 
         return JSON.serialize(objectInfo);
     }
-*/
+
     // Code used by communities and backend
     @AuraEnabled(cacheable=true)
     public static String getFieldData(String objectName, String fieldNames, Boolean enableDependentPicklist) {
@@ -687,7 +687,7 @@ public class Fielo_AuraService {
 		return values;
 	}
 
-
+*/
     // Code used by backend
     // Moved the cache control to the BeUtils to be able to enable/disable
     // on the client side. Some components need this case.
@@ -712,10 +712,7 @@ public class Fielo_AuraService {
             dataFilters = JSON.serialize(filter);
         }
         Schema.DescribeSObjectResult objectDescribe = Schema.describeSObjects(new List<String>{objectName})[0];
-        //Security Check
-        if(!objectDescribe.isAccessible()){
-            throw new FieloException(String.format(Label.security_error_object_not_readable, new List<String>{objectName}));
-        }
+
         Set<String> picklistTypes = new Set<String>{'PICKLIST','MULTIPICKLIST'};
         List<String> fieldset = new List<String>();
 
@@ -730,7 +727,7 @@ public class Fielo_AuraService {
         for(String fieldName: listFields){
             Schema.DescribeFieldResult fieldDescribe = fieldMap?.get(fieldName)?.getDescribe();
             if(fieldDescribe?.isAccessible() == false){
-                throw new FieloException(String.format(Label.security_error_field_not_readable, new List<String>{objectName, fieldName}));
+                throw new FieloPLT.FieloException(String.format('security_error_field_not_readable', new List<String>{objectName, fieldName}));
             }
             else if (fieldDescribe != null) {
                 if(fieldMap.containskey(fieldName) && picklistTypes.contains(fieldDescribe.getType().name())){
@@ -746,9 +743,151 @@ public class Fielo_AuraService {
             fieldset.add(fieldName);
         }
 
-        return new SObjectsSelector().queryPickListRecords(new List<String>(new Set<String>(fieldset)), fields, objectName, dataFilters, orderBy, recordsPerPage, offset);
+        return queryPickListRecords(new List<String>(new Set<String>(fieldset)), fields, objectName, dataFilters, orderBy, recordsPerPage, offset);
     }
+    public static List<SObject> queryPickListRecords(List<String> fieldset, String fields, String objectName, String dataFilters, String orderBy, String recordsPerPage, String offset) {
+        List<SObject> result = new List<SObject>();
+        String query = 'SELECT Id ';
+        if (fields != '') {
+            query += ', ' + String.join(fieldset, ',');
+        }
+        query += ' FROM ' + objectName;
+        query += getWhereCondition(dataFilters, objectName);
 
+        // ORDER BY
+        if (orderBy == null){
+            orderBy = 'LastModifiedDate DESC';
+        }
+        query += ' ORDER BY '+ orderBy;
+
+        // LIMIT & OFFSET
+        if (recordsPerPage != null) {
+            query += ' LIMIT ' + recordsPerPage;
+        }
+
+        if ( offset != null ){
+            query += ' OFFSET ' + offset;
+        }
+        if(Schema.describeSObjects(  new List<String>{objectName} )[0].isAccessible()) {
+            result = Database.query(query);
+        } else {
+            throw new FieloPLT.FieloException(String.format('security_error_object_not_readable', new List<String>{objectName}));
+        }
+        return result;
+    }
+    private static String getWhereCondition(String filterJson, String objectName) {
+        Map<String, Schema.SObjectField> objectFields = ((sObject)Type.forName(objectName).newInstance()).getSObjectType().getDescribe().fields.getMap();
+
+        String whereCondition = '';
+        if (String.isNotBlank(filterJson) && filterJson != null ) {
+            try {
+                Map<String,Object> filter = (Map<String, Object>) JSON.deserializeUntyped( filterJson);
+                for ( String k :filter.keySet() ) {
+                    String value = string.valueOf(filter.get(k));
+                    if (value == null || value == 'null') {
+                        whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' = null';
+                    } else if(value.toLowerCase() == '!null') {
+                        whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' != null';
+                    } else {
+                        if(value.startsWith('BOOLEAN:')){
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' = ' +  String.escapeSingleQuotes(value.removeStart('BOOLEAN:'));
+                        } else if(value.startsWith('LIKE:')){
+                                if (objectName.toLowerCase() == 'fieloplt__member__c' && String.escapeSingleQuotes(k).toLowerCase() == 'name') {
+                                    whereCondition += ' AND (' + String.escapeSingleQuotes(k) + ' LIKE \'%' +  String.escapeSingleQuotes(value.removeStart('LIKE:')) + '%\'' +
+                                    ' OR FieloPLT__Email__c LIKE \'%' +  String.escapeSingleQuotes(value.removeStart('LIKE:')) + '%\') ';
+                                } else {
+                                    whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' LIKE \'%' +  String.escapeSingleQuotes(value.removeStart('LIKE:')) + '%\'';
+                                }
+                        } else if ( value.startsWith('!') ) {
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' <> \'' +  String.escapeSingleQuotes(value.substring(1)) + '\'';
+                        } else if ( value.startsWith('IN:') ) {
+                                string value2 = value.removeStart('IN:');
+                                List<String> ids = new List<String>();
+
+                                for(String str: value2.split(',')){
+                                    string strc = '\'' + str  + '\'';
+                                    ids.add(strc);
+                                }
+                                whereCondition += ' AND '  + String.escapeSingleQuotes(k) + ' IN ' + ids;
+                        } else if ( value.startsWith('FROM:') ) {
+                            value = value.removeStart('FROM:');
+
+                            if (objectFields.get(k).getDescribe().getSOAPType().name().tolowercase() == 'double') {
+                                List<String> numbers = new List<String>();
+
+                                if (value.contains('TO:')) {
+                                    numbers = value.split('TO:');
+                                } else {
+                                    numbers.add(value);
+                                }
+
+                                for (Integer i = 0; i < numbers.size(); i++) {
+                                    whereCondition += ' AND ' + String.escapeSingleQuotes(k);
+                                    if (i == 0) {
+                                        // FROM
+                                        whereCondition += ' >= ';
+                                    } else {
+                                        // TO
+                                        whereCondition += ' <= ';
+                                    }
+                                    whereCondition += numbers[i];
+                                }
+
+                            } else {
+                                Date tempDate = Date.today();
+                                DateTime tempDateTime = DateTime.newInstance(0);
+                                List<String> dates = new List<String>();
+
+                                if (value.contains('TO:')) {
+                                    dates = value.split('TO:');
+                                } else {
+                                    dates.add(value);
+                                }
+
+                                for (Integer i = 0; i < dates.size(); i++) {
+                                    tempDate = Date.valueOf(dates[i]);
+                                    tempDateTime = DateTime.newInstance(tempDate.year(), tempDate.month(), tempDate.day());
+
+                                    whereCondition += ' AND ' + String.escapeSingleQuotes(k);
+                                    if (i == 0) {
+                                        // FROM
+                                        whereCondition += ' >= ';
+                                    } else {
+                                        // TO
+                                        whereCondition += ' <= ';
+                                    }
+                                    if (objectFields.get(k).getDescribe().getType().name().tolowercase() == 'datetime') {
+                                        whereCondition += tempDateTime.format('yyyy-MM-dd\'T00:00:00Z\'');
+                                    } else {
+                                        whereCondition += tempDateTime.format('yyyy-MM-dd');
+                                    }
+                                }
+                            }
+                        } else if ( value.startsWith('TO:') ) {
+                            Date tempDate = Date.valueOf(value.removeStart('TO:'));
+                            DateTime tempDateTime = DateTime.newInstance(tempDate.year(), tempDate.month(), tempDate.day());
+
+                            whereCondition += ' AND '  + String.escapeSingleQuotes(k) + ' <= ' + tempDateTime.format('yyyy-MM-dd\'T00:00:00Z\'') ;
+                        } else if ( objectName.tolowercase() == 'FieloPLT__Reward__c' && k.tolowercase() == 'fieloplt__program__c'){
+                                whereCondition += ' AND ( ' +
+                                    String.escapeSingleQuotes(k) + ' = \'' +  String.escapeSingleQuotes(value) + '\' OR ' +
+                                    String.escapeSingleQuotes(k) + ' = null ' +
+                                    ')';
+                        } else {
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' = \'' +  String.escapeSingleQuotes(value) + '\'';
+                        }
+                    }
+                }
+                if ( whereCondition != '') {
+                    whereCondition = ' WHERE ' + whereCondition.substring(4);
+                }
+            } catch( JSONException e ) {
+                system.debug(LoggingLevel.ERROR, 'INVALID JSON ' + filterJson );
+            }
+        }
+        return whereCondition;
+    }
+/*
     // Code used by backend
     // Moved the cache control to the BeUtils to be able to enable/disable
     // on the client side. Some components need this case.
@@ -788,19 +927,19 @@ public class Fielo_AuraService {
 
         return Database.query(query);
     }
-
+*/
     // Code used by backend
     // LwcVersion to use with wire
     @AuraEnabled(cacheable=true)
     public static List<SObject> getWiredRecords(String fields, String objectName, String dataFilters, String orderBy, String recordsPerPage, String offset) {
         return getRecords(fields, objectName, dataFilters, orderBy, recordsPerPage, offset);
     }
-
+/*
     @AuraEnabled(cacheable=true)
     public static List<Map<String,String>> getWiredProgramPoints(String programId) {
         return getPointTypes(programId);
     }
-
+*/
     // Code used by backend
     // LwcVersion to use with wire
     @AuraEnabled(cacheable=true)
@@ -813,7 +952,7 @@ public class Fielo_AuraService {
     public static Object getRecordsWithCounter(String fields, String objectName, String dataFilters, String orderBy, String recordsPerPage, String offset) {
         Schema.DescribeSObjectResult objectDescribe = Schema.describeSObjects(new List<String>{objectName})[0];
         if(!objectDescribe.isAccessible()){
-            throw new FieloException(String.format(Label.security_error_object_not_readable, new List<String>{objectName}));
+            throw new FieloPLT.FieloException(String.format('object not readable', new List<String>{objectName}));
         }
         Set<String> picklistTypes = new Set<String>{'PICKLIST','MULTIPICKLIST'};
         List<String> fieldset = new List<String>();
@@ -832,8 +971,112 @@ public class Fielo_AuraService {
             fieldset.add(fieldName);
         }
 
-        return new SObjectsSelector().queryRecordsWithCounter(fieldset, fields, objectName, dataFilters, orderBy, recordsPerPage, offset);
+        return queryRecordsWithCounter(fieldset, fields, objectName, dataFilters, orderBy, recordsPerPage, offset);
     }
+    public static Object queryRecordsWithCounter(List<String> fieldset, String fields, String objectName, String dataFilters, String orderBy, String recordsPerPage, String offset) {
+        List<SObject> result = new List<SObject>();
+        Integer counter = 0;
+        String whereCondition = getWhereCondition(dataFilters);
+
+        if(Schema.describeSObjects(  new List<String>{objectName} )[0].isAccessible()) {
+            String countQuery = String.format('SELECT {0} FROM {1} {2}', new List<String>{
+                'count()',
+                objectName,
+                String.isNotBlank(whereCondition) ? whereCondition : ''
+            });
+            counter = Database.countQuery(countQuery);
+            String query = String.format('SELECT {0} FROM {1} {2} {3} {4} {5}', new List<String>{
+                fieldset != null && !fieldset.isEmpty() ? 'Id, ' + String.join(fieldset, ',') : 'Id',
+                objectName,
+                String.isNotBlank(whereCondition) ? whereCondition : '',
+                String.isNotBlank(orderBy) ? 'ORDER BY ' + orderBy : 'ORDER BY LastModifiedDate DESC',
+                String.isNotBlank(recordsPerPage) ? ('LIMIT ' + recordsPerPage) : 'LIMIT 10',
+                String.isNotBlank(offset) ? ('OFFSET ' + offset) : ''
+            });
+            result = Database.query(query);
+        } else {
+            throw new FieloPLT.FieloException(String.format('object not readable', new List<String>{objectName}));
+        }
+        return (Object) new Map<String, Object> {
+            'counter' => (Object) counter,
+            'records' => (Object) result
+        };
+    }
+    private static String getWhereCondition(String filterJson) {
+        String whereCondition = '';
+        if (filterJson != null ) {
+            try {
+                Map<String,Object> filter = (Map<String, Object>) JSON.deserializeUntyped( filterJson);
+                for ( String k :filter.keySet() ) {
+                    String value = string.valueOf(filter.get(k));
+                    if (value == null || value == 'null') {
+                        whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' = null';
+                    } else if(value.toLowerCase() == '!null') {
+                        whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' != null';
+                    } else {
+                        if(value.startsWith('BOOLEAN:')){
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' = ' +  String.escapeSingleQuotes(value.removeStart('BOOLEAN:'));
+                        } else if(value.startsWith('LIKE:')){
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' LIKE \'%' +  String.escapeSingleQuotes(value.removeStart('LIKE:')) + '%\'';
+                        } else if ( value.startsWith('!') ) {
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' <> \'' +  String.escapeSingleQuotes(value.substring(1)) + '\'';
+                        }else if ( value.startsWith('IN:') ) {
+                                string value2 = value.removeStart('IN:');
+                                List<String> ids = new List<String>();
+
+                                for(String str: value2.split(',')){
+                                    string strc = '\'' + str  + '\'';
+                                    ids.add(strc);
+                                }
+                                whereCondition += ' AND '  + String.escapeSingleQuotes(k) + ' IN ' + ids;
+                        }    else if ( value.startsWith('FROM:') ) {
+                            value = value.removeStart('FROM:');
+
+                            Date tempDate = Date.today();
+                            DateTime tempDateTime = DateTime.newInstance(0);
+                            List<String> dates = new List<String>();
+
+                            if (value.contains('TO:')) {
+                                dates = value.split('TO:');
+                            } else {
+                                dates.add(value);
+                            }
+
+                            for (Integer i = 0; i < dates.size(); i++) {
+                                tempDate = Date.valueOf(dates[i]);
+                                tempDateTime = DateTime.newInstance(tempDate.year(), tempDate.month(), tempDate.day());
+
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k);
+                                if (i == 0) {
+                                    // FROM
+                                    whereCondition += ' >= ';
+                                } else {
+                                    // TO
+                                    whereCondition += ' <= ';
+                                }
+                                 whereCondition += tempDateTime.format('yyyy-MM-dd\'T00:00:00Z\'');
+                            }
+
+                        } else if ( value.startsWith('TO:') ) {
+                            Date tempDate = Date.valueOf(value.removeStart('TO:'));
+                            DateTime tempDateTime = DateTime.newInstance(tempDate.year(), tempDate.month(), tempDate.day());
+
+                            whereCondition += ' AND '  + String.escapeSingleQuotes(k) + ' <= ' + tempDateTime.format('yyyy-MM-dd\'T00:00:00Z\'') ;
+                        } else {
+                                whereCondition += ' AND ' + String.escapeSingleQuotes(k) + ' = \'' +  String.escapeSingleQuotes(value) + '\'';
+                        }
+                    }
+                }
+                if ( whereCondition != '') {
+                    whereCondition = ' WHERE ' + whereCondition.substring(4);
+                }
+            } catch( JSONException e ) {
+                system.debug(LoggingLevel.ERROR, 'INVALID JSON ' + filterJson );
+            }
+        }
+        return whereCondition;
+    }
+    /*
     // Code used by backend
     @AuraEnabled
     public static List<SObject> getRecordsWithRelated(String fields, String objectName, Map<String, List<String>> fieldsByRelationShipName, String dataFilters, Map<String, String> dataFiltersByRelationshipName, String orderBy, String recordsPerPage, String offset) {
@@ -1669,7 +1912,7 @@ public class Fielo_AuraService {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
+*/
     @AuraEnabled(cacheable=true)
     public static Object getWiredFieldSet(String objectApiName, String fieldSetName){
         Map<String,Object> fieldMap = new Map<String,Object>();
@@ -1728,7 +1971,7 @@ public class Fielo_AuraService {
                     switch on fieldSetName {
                         when 'FieloPLT__ccPayoutItems' {
                             if (fieldSetMemberObj.getFieldPath()=='Name') {
-                                col.put('label', (Object) Label.PayoutItemName);
+                                col.put('label', 'Item Name');
                             }
                         }
                     }
@@ -1825,7 +2068,7 @@ public class Fielo_AuraService {
             }
         }
     }
-
+/*
     //return the fieldset LandingList configured (api names) for the object.
     @AuraEnabled
     public static List<String> getFieldSet(String objectApiName, String fieldSetName){

@@ -90,7 +90,7 @@
     <c:Spinner />
     
     <aura:if isTrue="{!v.showError}">
-        <FieloPLT:Error error="{!v.error}" />
+        <c:Error error="{!v.error}" />
     </aura:if>
 
 </aura:component>

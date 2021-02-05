@@ -1,0 +1,33 @@
+<design:component label="Fielo - Profile">
+	<design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component." default="My Profile"
+                    />
+    <design:attribute label="Show Member Information" name="showMemberFields" description="Check this box in order to display member information at the top of the component." default="True"
+                    />
+    <design:attribute label="Member Fields" name="fields" description="Enter the API names of the member fields you want to be displayed, separated by commas." 
+                    default='FieloPLT__ExternalURL__c/image,Name,FieloPLT__CurrentLevelMember__r.FieloPLT__Level__r.Name' />
+    <design:attribute label="Editable Member Fields" name="fieldsEdit" description="Enter the API names of the fields you want members to be able to edit, separated by commas." 
+                    default='FieloPLT__Email__c,Name' />
+    <design:attribute label="Document Folder" name="documentFolder" datasource="apex://FieloPLT.DocumentFolderPicklist" description="Select the folder you want member photos to be uploaded to." required="true"
+                    />    
+    <design:attribute label="Show Transactions" name="showTransactions" description="Check this box to allow members to view their transactions from the component." default="true"
+                    />
+    <design:attribute label="Transaction Fields" name="transactionFields" description="If showing transactions, enter the API names of the fields you want to be displayed in the Transactions tab, separated by commas." 
+                    default='Name,FieloPLT__Points__c/colorNumber,FieloPLT__Date__c/date,FieloPLT__Type__c'
+                    />
+    <design:attribute label="Show Redemptions" name="showRedemptions" description="Check this box to allow members to view their redemptions from the component."
+                        default="true" />
+    <design:attribute label="Redemption Fields" name="redemptionFields" description="If showing redemptions, enter the API names of the fields you want to be displayed in the Redemptions tab, separated by commas."
+                        default='FieloPLT__Points__c,FieloPLT__Status__c' />
+    <design:attribute label="Redemption Item Fields" name="redemptionItemFields" description="If showing redemptions, enter the API names of the redemption item fields you want to be displayed in redemption detail views, separated by commas."
+                            default='FieloPLT__Reward__r.FieloPLT__ExternalURL__c/image,FieloPLT__Reward__r.Name,FieloPLT__Points__c' />
+    <design:attribute label="Show Badges" name="showBadges" description="Check this box to allow members to view their badges from the component." default="true"
+                    />
+    <design:attribute label="Badge Fields" name="badgeFields" description="If showing badges, enter the API names of the fields you want to be displayed in the Badges tab, separated by commas." 
+                default='Name,FieloPLT__ExternalURL__c/image'
+                />
+    <design:attribute label="Show Payouts" name="showPayouts"
+        description="Check this box to allow members to view their Payouts from the component." default="true" />
+    <design:attribute label="Payout Fields" name="payoutFields"
+        description="If showing payouts, enter the API names of the fields you want to be displayed in the Payouts tab, separated by commas."
+        default='Name,FieloPLT__Status__c,FieloPLT__PayoutDate__c/date,FieloPLT__Amount__c/currency' />
+</design:component>

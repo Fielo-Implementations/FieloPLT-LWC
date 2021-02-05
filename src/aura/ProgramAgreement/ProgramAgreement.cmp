@@ -45,7 +45,7 @@
                 <footer class="slds-modal__footer">
                     <lightning:button variant="brand" label="Close" onclick="{!c.dismiss}" />
                     <aura:if isTrue="{!v.showCheckbox}">
-                        <lightning:button variant="brand" label="{!$Label.c.Submit}" disabled="{!!v.agreementChecked}" onclick="{!c.submit }" />
+                        <lightning:button variant="brand" label="{!$FieloPLT.Label.Submit}" disabled="{!!v.agreementChecked}" onclick="{!c.submit }" />
                     </aura:if>                
                 </footer>
             </div>

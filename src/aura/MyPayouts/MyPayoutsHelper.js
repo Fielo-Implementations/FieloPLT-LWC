@@ -166,7 +166,7 @@
 
                                 if (field.attributes.name.toLowerCase() == 'fieloplt__status__c') {
                                     let options = [
-                                        {label:$A.get("$Label.c.All"), value:''}
+                                        {label:$A.get("$FieloPLT.Label.All"), value:''}
                                     ];
                                     options.push(...field.picklistentries);
                                     field.picklistentries = options;

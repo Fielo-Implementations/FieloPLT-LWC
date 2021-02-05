@@ -155,7 +155,7 @@
           var titleType = listview.title.type.toLowerCase();
           var titleValue = listview.title.value;
           if (titleType == 'label') {
-            var titleLabel = '$Label.' + titleValue;
+            var titleLabel = '$FieloPLT.Label.' + titleValue;
             listview.titleValue = $A.get(titleLabel);
           } else {
             listview.titleValue = titleValue;
@@ -205,14 +205,14 @@
       component.set(
         'v.overrideHelptext',
         {
-          'fieloplt__status__c': $A.get('$Label.c.FilterRedemptionStatusHelpText')
+          'fieloplt__status__c': $A.get('$FieloPLT.Label.c.FilterRedemptionStatusHelpText')
         }
       );
 
 
       var defaultPicklistOptions = {
         'FieloPLT__Status__c': {
-          'defaultPicklistValue': $A.get("$Label.c.All")
+          'defaultPicklistValue': $A.get("$FieloPLT.Label.c.All")
         }
       };
 

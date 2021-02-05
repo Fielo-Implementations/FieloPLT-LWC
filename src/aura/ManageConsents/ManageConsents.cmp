@@ -1,0 +1,62 @@
+<aura:component controller="ManageConsentsController">
+    <aura:attribute name="mode" type="String" />    
+    <aura:attribute name="show" type="Boolean" default="false" />
+    <aura:attribute name="recordId" type="String" description="Member Id" />
+    <aura:attribute name="consents" type="sObject[]" />
+
+    <aura:method name="getConsentsValues" action="{!c.get}"></aura:method>
+    <aura:registerEvent name="manageConsentsEvent" type="c:ManageConsentsEvent"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}"/>
+
+    <aura:if isTrue="{!v.mode == 'profile'}">
+        <aura:if isTrue="{!v.show}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:button iconName="utility:close" variant="inverse" class="slds-modal__close modal-close-btn"  onclick="{!c.dismiss }" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$FieloPLT.Label.c.Preferences}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="slds-p-around--small">
+                            <div>
+                                <aura:iteration items="{!v.consents}" var="consent">
+                                    <div class="consent-item">
+                                        <c:InputField aura:id="consentInput" type="checkbox" fieldName="{!consent.consent.Id}" checked="{!consent.isActive}" label="{!consent.consent.Name}" />
+                                        <div class="description">
+                                            {!consent.consent.FieloPLT__MemberText__c}
+                                        </div>
+                                    </div>
+                                    
+                                </aura:iteration>
+                            </div>                            
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" label="Close" onclick="{!c.dismiss}" />
+                        <lightning:button variant="brand" label="{!$FieloPLT.Label.c.Submit}" onclick="{!c.submit}" />                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        <c:Spinner />            
+    </aura:if>
+    <aura:if isTrue="{!v.mode == 'registration'}">
+        <aura:if isTrue="{!v.consents.length > 0}">
+            <div class="slds-p-top--small slds-p-bottom--small">
+                <h3 class="consents-title">
+                    {!$FieloPLT.Label.c.Preferences}
+                </h3>                
+                <aura:iteration items="{!v.consents}" var="consent">
+                    <div class="consent-item">
+                        <c:InputField aura:id="consentInput" type="checkbox" fieldName="{!consent.Id}" checked="false" label="{!consent.Name}" />
+                        <div class="description">
+                            {!consent.FieloPLT__MemberText__c}
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </aura:if>
+    </aura:if>
+</aura:component>

@@ -29,7 +29,7 @@
                 helper.submitAgreement(component, event, helper);
             }
         }else{
-            var errorMsg = $A.get("$Label.c.AgreementAccept");
+            var errorMsg = $A.get("$FieloPLT.Label.c.AgreementAccept");
             toastEvent.setParams({
                 "title": errorMsg,
                 "message": " ",

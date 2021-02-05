@@ -13,7 +13,7 @@ public class ProfileController {
     public static map<String, String> getFieldLabels(){
         map<String, String> mapFieldLabels = new map<String, String>();
 
-        for(Schema.SObjectField sfield: Member__c.sObjectType.getDescribe().fields.getMap().Values()){
+        for(Schema.SObjectField sfield: FieloPLT__Member__c.sObjectType.getDescribe().fields.getMap().Values()){
             Schema.Describefieldresult dfield = sfield.getDescribe();
             mapFieldLabels.put(dfield.getName(), dfield.getLabel());
         }

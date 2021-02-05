@@ -1,6 +1,6 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="MyPayoutsController" access="global">
 
-    <aura:attribute name="member" type="Member__c" />
+    <aura:attribute name="member" type="FieloPLT__Member__c" />
 
     <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent" />
     <aura:attribute name="configDefault" type="String"
@@ -90,7 +90,7 @@
 
         <aura:if isTrue="{!v.showDetail}">
             <lightning:breadcrumbs class="slds-text-title_caps">
-                <lightning:breadcrumb label="{!$Label.c.MyPayouts}" onclick="{!c.backToMyPayouts}" />
+                <lightning:breadcrumb label="{!$FieloPLT.Label.MyPayouts}" onclick="{!c.backToMyPayouts}" />
                 <li class="slds-breadcrumb__item fielo-breadcrumb__current">
                     {!v.record.Name}
                 </li>

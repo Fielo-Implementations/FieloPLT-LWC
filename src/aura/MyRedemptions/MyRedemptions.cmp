@@ -1,7 +1,7 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="MyRedemptionsController"
   access="global">
 
-  <aura:attribute name="member"  type="Member__c" />
+  <aura:attribute name="member"  type="FieloPLT__Member__c" />
   <aura:attribute name="showBackButton"  default="false" type="Boolean"  />
 
   <aura:registerEvent name="toggleSpinnerEvent"  type="c:ToggleSpinnerEvent" />
@@ -68,7 +68,7 @@
   <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}" />
   <div>
     <aura:if isTrue="{!v.showBackButton}">
-      <lightning:button class="fielo-redemption__back-button slds-text-body_small" variant="base" label="{!$Label.c.BackToCatalog}" title="{!$Label.c.BackToCatalog}" onclick="{!c.handleBackClick}" />
+      <lightning:button class="fielo-redemption__back-button slds-text-body_small" variant="base" label="{!$FieloPLT.Label.c.BackToCatalog}" title="{!$FieloPLT.Label.c.BackToCatalog}" onclick="{!c.handleBackClick}" />
     </aura:if>
     <aura:if isTrue="{!!empty(v.title)}">
       <h3 class="slds-section-title--divider">{!v.title}</h3>

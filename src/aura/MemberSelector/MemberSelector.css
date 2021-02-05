@@ -19,7 +19,7 @@
     display: inline-block;
 }
 .THIS .profile-icon{
-    background: token(colorBrand);
+    /*background: token(colorBrand);*/
 }
 
 .THIS .fielosf-profile-item{    

@@ -4,7 +4,7 @@
     <aura:attribute name="configDefault" type="String" default='{"filterFields":"CreatedDate/range","fieldset":[{"apiName":"Name","type":"output","label":{"type":"default"},"showLabel":false},{"apiName":"FieloPLT__ExternalURL__c","type":"image","label":{"type":"default"},"showLabel":false},{"type":"subcomponent","subcomponent":"FieloPLT:BadgeDetail","label":{"type":"default"},"showLabel":false}],"quantity":5}'
     />
 
-    <aura:attribute name="member" type="Member__c"  />
+    <aura:attribute name="member" type="FieloPLT__Member__c"  />
     
     <aura:attribute type="String" name="title" access="private" />
     <aura:attribute type="String" name="cssClass" />
@@ -43,34 +43,34 @@
         </aura:if>    
 
         <lightning:tabset class="{!v.cssClass}">
-            <lightning:tab label="{!$Label.FieloPLT.Earned}">
+            <lightning:tab label="{!$FieloPLT.Label.FieloPLT.Earned}">
                 <div class="slds-p-around--large">
-                    <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Active" member="{!v.member}" title="{!$Label.c.Earned}"
+                    <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Active" member="{!v.member}" title="{!$FieloPLT.Label.c.Earned}"
                         layout="{!v.memberBadgesLayout}" columns="{!v.memberBadgesColumns}" fields="{!v.memberBadgesFields}" />
                 </div>
             </lightning:tab>
             <aura:if isTrue="{!v.showAchievableBadges}">
-                <lightning:tab label="{!$Label.c.BadgeAPIAchievable}">
+                <lightning:tab label="{!$FieloPLT.Label.c.BadgeAPIAchievable}">
                     <div class="slds-p-around--large">
-                        <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Achievable" member="{!v.member}" title="{!$Label.c.BadgeAPIAchievable}"
+                        <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Achievable" member="{!v.member}" title="{!$FieloPLT.Label.c.BadgeAPIAchievable}"
                             layout="{!v.memberBadgesLayout}" columns="{!v.memberBadgesColumns}" fields="{!v.memberBadgesFields}"
                         />
                     </div>
                 </lightning:tab>
             </aura:if>
             <aura:if isTrue="{!v.showExpiredBadges}">
-                <lightning:tab label="{!$Label.c.BadgeAPIExpired}">
+                <lightning:tab label="{!$FieloPLT.Label.c.BadgeAPIExpired}">
                     <div class="slds-p-around--large">
-                        <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Expired" member="{!v.member}" title="{!$Label.c.BadgeAPIExpired}"
+                        <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Expired" member="{!v.member}" title="{!$FieloPLT.Label.c.BadgeAPIExpired}"
                             layout="{!v.memberBadgesLayout}" columns="{!v.memberBadgesColumns}" fields="{!v.memberBadgesFields}"
                         />
                     </div>
                 </lightning:tab>
             </aura:if>
             <aura:if isTrue="{!v.showLostBadges}">
-                <lightning:tab label="{!$Label.c.Unavailable}">
+                <lightning:tab label="{!$FieloPLT.Label.c.Unavailable}">
                     <div class="slds-p-around--large">
-                        <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Lost" member="{!v.member}" title="{!$Label.c.Unavailable}"
+                        <c:BadgesList showFilter="{!v.showFilter}" filterFieldset="{!v.filterFieldset}" sortByFieldset="{!v.sortByFieldset}" enableSortBy="{!v.enableSortBy}" paging="{!v.paging}" quantity="{!v.quantity}" status="Lost" member="{!v.member}" title="{!$FieloPLT.Label.c.Unavailable}"
                             layout="{!v.memberBadgesLayout}" columns="{!v.memberBadgesColumns}" fields="{!v.memberBadgesFields}"
                         />
                     </div>

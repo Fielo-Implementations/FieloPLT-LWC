@@ -1,0 +1,164 @@
+<aura:component controller="ListViewController">
+  <aura:attribute name="labels" type="sObject" />
+  <aura:attribute name="record" type="sObject" />
+  <aura:attribute name="config" type="String" />
+  <aura:attribute name="sections" type="sObject[]" access="private" />
+  <aura:attribute name="listviews" type="sObject[]" access="private" />
+  <aura:attribute name="subcomponents" type="sObject[]" access="private" />
+  <aura:attribute name="showRecordDetail" type="Boolean" default="false" access="private" />
+  <aura:attribute name="relatedLists" type="sObject[]" access="private" />
+  <aura:attribute name="imageFields" type="sObject[]" default="[]" />
+  <aura:attribute name="showImages" type="Boolean" default="false" />
+
+  <aura:attribute name="fieldset" type="sObject[]" />
+  <aura:attribute name="subfieldset" type="sObject[]" />
+
+  <aura:attribute name="type" type="String" default="modal" />
+
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+  <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent" />
+
+  <aura:registerEvent name="recordDetailDismiss" type="c:ListViewBack" />
+
+  <aura:if isTrue="{!v.showRecordDetail}">
+
+    <aura:if isTrue="{!or(!v.type, v.type == 'modal')}">
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"
+        class="slds-modal slds-modal_large slds-fade-in-open">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <lightning:button iconName="utility:close" variant="inverse" class="slds-modal__close modal-close-btn" onclick="{!c.dismiss }"
+            />
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!or(v.config.title,v.record.Name)}</h2>
+          </header>
+          <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">
+            <!-- default view-->
+            <aura:if isTrue="{! v.config.view == 'default'}">
+              <lightning:layout class="fielo-default-view slds-wrap">
+                <aura:if isTrue="{!v.showImages}">
+                  <lightning:layoutItem class="fielo-data-images slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-2">
+                    <aura:iteration items="{!v.imageFields}" var="field">
+                      <div class="{!'slds-text-align_center ' + field.cssClass}" >
+                        <aura:if isTrue="{!field.showLabel}">
+                          <label class="slds-form-element__label">{!field.label.labelValue}</label>
+                        </aura:if>
+                        <c:OutputField blankValue="{!field.blankValue}" config="{!field.config}" subcomponent="{!field.subcomponent}" record="{!v.record}" fieldName="{!field.apiName}" type="{!field.type}" class="{!field.cssClass}" />
+                      </div>
+                    </aura:iteration>
+                  </lightning:layoutItem>
+                </aura:if>
+                <lightning:layoutItem  padding="around-small" class="{!'fielo-data-content slds-size_1-of-1 slds-small-size_1-of-1 ' + (v.showImages ? 'slds-medium-size_1-of-2' : '')}">
+                  <aura:iteration items="{!v.sections}" var="s">
+                    <aura:iteration items="{!s.rows}" var="r">
+                      <aura:iteration items="{!r}" var="field">
+                        <aura:if isTrue="{!field.type != 'image'}">
+                          <div class="{!field.cssClass}" >
+                            <aura:if isTrue="{!field.showLabel}">
+                              <label class="slds-form-element__label">{!field.label.labelValue}</label>
+                            </aura:if>
+                            <c:OutputField blankValue="{!field.blankValue}" config="{!field.config}" subcomponent="{!field.subcomponent}" record="{!v.record}" fieldName="{!field.apiName}" type="{!field.type}" class="{!field.cssClass}" />
+                          </div>
+                        </aura:if>
+                      </aura:iteration>
+                    </aura:iteration>
+                  </aura:iteration>
+                </lightning:layoutItem>
+              </lightning:layout>
+              <aura:set attribute="else">
+                <!-- FIELDS -->
+                <div class="fielo-custom-view">
+                  <aura:iteration items="{!v.sections}" var="s">
+                    <div class="slds-p-top--small">
+                      <h3 class="slds-section__title">
+                        <span class="slds-truncate" title="Section Title">{!s.titleValue}</span>
+                      </h3>
+                      <aura:iteration items="{!s.rows}" var="r">
+                        <lightning:layout>
+                          <aura:iteration items="{!r}" var="field">
+                            <lightning:layoutItem padding="around-large">
+                              <aura:if isTrue="{!field.showLabel}">
+                                <label class="slds-form-element__label inline">{!field.label.labelValue}</label>
+                              </aura:if>
+                              <c:OutputField blankValue="{!field.blankValue}" record="{!v.record}" type="{!field.type}" fieldName="{!field.apiName}" />
+                            </lightning:layoutItem>
+                          </aura:iteration>
+                        </lightning:layout>
+                      </aura:iteration>
+                    </div>
+                  </aura:iteration>
+                </div>
+              </aura:set>
+            </aura:if>
+            <!-- LISTVIEWS -->
+            <aura:iteration items="{!v.listviews}" var="listview">
+              <div class="slds-p-top--small">
+                <c:ListView title="{!listview.titleValue}" showTitle="true" objectAPIName="{!listview.objectAPIName}" fieldset="{!listview.fieldset}" layout="table" records="{!listview.records}" paging="false" whereCondition="{!listview.whereCondition}" />
+              </div>
+            </aura:iteration>
+            <!-- SUBCOMPONENTS -->
+            <aura:iteration items="{!v.subcomponents}" var="s">
+              <div class="{!'slds-p-top--small ' + s.cssClass}">
+                <c:OutputField blankValue="{!s.blankValue}" subcomponent="{!s.subcomponent}" config="{!s.config}" record="{!v.record}" fieldName="{!s.apiName}" type="subcomponent" />
+              </div>
+            </aura:iteration>
+          </div>
+          <footer class="slds-modal__footer">
+            <lightning:button label="{!$FieloPLT.Label.c.Cancel}" title="{!$FieloPLT.Label.c.Cancel}" onclick="{!c.dismiss }" />
+            <aura:iteration items="{!v.config.footerButtons}" var="btn">
+              <c:OutputField blankValue="{!btn.blankValue}" config="{!btn.config}" subcomponent="{!btn.subcomponent}" record="{!v.record}" fieldName="{!btn.apiName}" type="{!btn.type}" class="{!'footer-button ' + btn.cssClass}" />
+            </aura:iteration>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'newPage'}">
+      <c:CardItem layout="table" record="{!v.record}" type="view" fieldset="{!v.fieldset}" subfieldset="{!v.subfieldset}" />
+      <lightning:tabset>
+        <aura:if isTrue="{!v.sections.length > 0}">
+          <lightning:tab label="{!$FieloPLT.Label.c.Detail}">
+            <aura:iteration items="{!v.sections}" var="s">
+              <div class="slds-p-top--small">
+                <!-- <h3 class="slds-section__title slds-p-left- -large">
+                  <span class="slds-truncate" title="Section Title">{!s.titleValue}</span>
+                </h3> -->
+                <aura:iteration items="{!s.rows}" var="r">
+                  <lightning:layout class="no-border">
+                    <aura:iteration items="{!r}" var="field">
+                      <lightning:layoutItem padding="around-large">
+                        <aura:if isTrue="{!field.showLabel}">
+                          <label class="slds-form-element__label inline">{!field.label.labelValue}</label>
+                        </aura:if>
+                        <c:OutputField blankValue="{!field.blankValue}" record="{!v.record}" type="{!field.type}" fieldName="{!field.apiName}" subcomponent="{!field.subcomponent}" config="{!field.config}" class="{!field.cssClass}" />
+                      </lightning:layoutItem>
+                    </aura:iteration>
+                  </lightning:layout>
+                </aura:iteration>
+              </div>
+  
+            </aura:iteration>
+          </lightning:tab>
+        </aura:if>
+
+        <aura:iteration items="{!v.listviews}" var="listview">
+          <lightning:tab label="{!listview.titleValue}">
+            <div class="slds-p-top--small">
+              <c:ListView recordDetailConfig="{!listview.recordDetailConfig}" title="{!listview.titleValue}" showQty="true" showTitle="true"
+                objectAPIName="{!listview.objectAPIName}" fieldset="{!listview.fieldset}" layout="accordiondetail" records="{!listview.records}" paging="false" whereCondition="{!listview.whereCondition}" />
+            </div>
+          </lightning:tab>
+        </aura:iteration>
+        <!-- SUBCOMPONENTS -->
+        <aura:iteration items="{!v.subcomponents}" var="s">
+          <lightning:tab label="{!s.titleValue}">
+            <div class="{!'slds-p-top--small ' + s.cssClass}">
+              <c:OutputField blankValue="{!s.blankValue}" subcomponent="{!s.subcomponent}" config="{!s.config}" record="{!v.record}" fieldName="{!s.apiName}" type="subcomponent" />
+            </div>
+          </lightning:tab>
+        </aura:iteration>
+      </lightning:tabset>
+    </aura:if>
+  </aura:if>
+</aura:component>

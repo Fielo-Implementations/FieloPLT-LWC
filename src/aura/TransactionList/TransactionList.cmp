@@ -1,0 +1,51 @@
+<aura:component controller="MyTransactionsController">
+    <aura:attribute name="condition" type="String" />
+    <aura:attribute name="member" type="FieloPLT__Member__c" />
+    <aura:attribute name="paging" type="Boolean" />
+    
+    <aura:attribute name="fieldset" type="sObject[]" />
+    <aura:attribute name="title" type="sObject" />
+    <aura:attribute name="titleValue" type="String" access="private"/>
+    
+    <aura:attribute name="showRecords" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="records" type="sObject[]" />    
+    <aura:attribute name="fields" type="String[]" access="private"/> 
+    
+    <aura:attribute name="layout" type="String" />
+    
+    <aura:attribute type="String" name="orderBy"/>
+    <!-- PAGINADOR -->
+    <aura:attribute name="quantity" type="Integer" />            
+    <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}"/>        
+    <!-- PAGINADOR -->
+    
+    <!-- RECORD DETAIL -->    
+    <aura:attribute name="recordDetailListviews" type="sObject" />
+    <aura:attribute name="recordDetailFields" type="String[]" />
+    <aura:attribute name="recordDetailConfig" type="sObject" />
+    <aura:attribute name="recordDetail" type="sObject" />
+    <aura:handler name="showRecord" event="c:ShowRecordEvent" action="{!c.showTransaction}"/>    
+    <!-- RECORD DETAIL -->
+    
+    <aura:attribute name="dynamicFilter" type="String" />            
+    
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent"/>    
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}"/>    
+    
+    <aura:method name="filterElements" action="{!c.filter}" />    
+        
+    <aura:if isTrue="{!v.showRecords}" >
+        <div aura:id="body" class="body slds-p-top--large">
+            <c:ListView recordDetailConfig="{!v.recordDetailConfig}" recordDetail="{!v.recordDetail}" objectAPIName="FieloPLT__Transaction__c" paging="{!v.paging}" quantity="{!v.quantity}" fieldset="{!v.fieldset}" layout="{!v.layout}" records="{!v.records}" />
+        </div>
+    </aura:if>
+    
+    
+    
+    <c:Spinner />
+    
+    
+</aura:component>

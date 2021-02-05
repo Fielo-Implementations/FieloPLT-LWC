@@ -39,7 +39,7 @@
     <aura:handler name="destroy" value="{!this}" action="{!c.handleDestroy}" />
     <!-- <aura:handler event="c:UpdateMemberEvent" action="{!c.refreshMember}" /> -->
     <c:auraPubsub aura:id="pubsub" onready="{!c.handlePubsubReady}" />
-    <c:ccMemberAgreement member="{!v.memberInfo.Id}" />
+    <!--<c:ccMemberAgreement member="{!v.memberInfo.Id}" />-->
     
     <aura:if isTrue="{!v.showProfile}">
         <article class="{!v.hideSelector ? 'hidden slds-card' : 'slds-card'}">
@@ -67,7 +67,7 @@
                             <aura:if isTrue="{!v.memberInfo.FieloPLT__ExternalURL__c}">
                                 <c:OutputField type="image" record="{!v.memberInfo}" fieldName="FieloPLT__ExternalURL__c" />
                                 <aura:set attribute="else">
-                                    <img src="{!$Resource.FieloPlt_Salesforce + '/images/member.png'}" />
+                                    <img src="{!$FieloPLT.Resource.FieloPlt_Salesforce + '/images/member.png'}" />
                                 </aura:set>
                             </aura:if>
                             

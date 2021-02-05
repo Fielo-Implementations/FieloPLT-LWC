@@ -21,12 +21,7 @@ public class MyTransactionsController {
             Set<String> fieldsRevertedTransactionSet = new Set<String>(fieldsRevertedTransaction);
             Set<Id> transactionIdsSet = new Set<Id>(transactionIds);
             
-            List<FieloPLT__Transaction__c> myTransactions = TransactionService.getTransactions(fieldsTransactionsSet,
-                                                                                               fieldsPointSet,
-                                                                                               fieldsRedemptionSet,
-                                                                                               fieldsBadgeMemberSet,
-                                                                                               fieldsRevertedTransactionSet,
-                                                                                               transactionIdsSet.size() == 0 ? null : transactionIdsSet,
+            List<FieloPLT__Transaction__c> myTransactions = FieloPLT.TransactionService.getTransactions(fieldsTransactionsSet,
                                                                                                memberId,
                                                                                                orderBy,
                                                                                                quantity,
@@ -46,8 +41,8 @@ public class MyTransactionsController {
         map<String, map<String, String>> mapPicklistsValues = new map<String, map<String, String>>();
 
         for(String picklistAPIName: listPicklistsToTranslate){
-            if(Transaction__c.sObjectType.getDescribe().fields.getMap().containsKey(picklistAPIName.toLowerCase())){
-                Schema.Describefieldresult dfield = (Transaction__c.sObjectType.getDescribe().fields.getMap().get(picklistAPIName.toLowerCase())).getDescribe();
+            if(FieloPLT__Transaction__c.sObjectType.getDescribe().fields.getMap().containsKey(picklistAPIName.toLowerCase())){
+                Schema.Describefieldresult dfield = (FieloPLT__Transaction__c.sObjectType.getDescribe().fields.getMap().get(picklistAPIName.toLowerCase())).getDescribe();
                 if(String.ValueOf(dfield.getType()).toLowerCase() == 'picklist'){
                     mapPicklistsValues.put(picklistAPIName, new map<String, String>());
                     for (Schema.PicklistEntry pValues: dfield.getPicklistValues()) {

@@ -1,0 +1,193 @@
+<aura:component controller="ProfileController" implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes"
+    access="global">
+    <aura:attribute name="member" type="FieloPLT__Member__c" access="private" />
+    <aura:attribute name="showMember" type="Boolean" access="private" />
+    <aura:attribute type="String" name="configDefault" default='{"fieldset":[{"apiName":"FieloPLT__ExternalURL__c","label":{"type":"default"},"showLabel":true,"type":"image"},{"apiName":"Name","label":{"type":"default"},"showLabel":true,"type":"output"},{"apiName":"FieloPLT__CurrentLevelMember__r.FieloPLT__Level__r.Name","label":{"type":"default"},"showLabel":true,"type":"output"}],"fieldsetEdit":[{"apiName":"Name","label":{"type":"default"},"showLabel":true,"type":"output"},{"apiName":"FieloPLT__Email__c","label":{"type":"default"},"showLabel":true,"type":"output"}]}'
+    />
+    <aura:attribute name="fieldset" type="sObject[]" access="private" />
+    <aura:attribute name="fieldsetEdit" type="sObject[]" access="private" />
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="documentFolder" access="global" />
+    <aura:attribute type="String" name="titleValue" access="global" />
+    <aura:attribute type="Boolean" name="showMemberFields" access="global" />
+    <aura:attribute name="fields" type="String" access="global" />
+    <aura:attribute name="fieldsEdit" type="String" access="global" />
+    <aura:attribute name="showTransactions" type="Boolean" access="global" />
+    <aura:attribute name="transactionFields" type="String" access="global" default="" />
+    <aura:attribute name="showBadges" type="Boolean" access="global" />
+    <aura:attribute name="badgeFields" type="String" access="global" default="" />
+    <aura:attribute name="showRedemptions" type="Boolean" access="global" />
+    <aura:attribute name="redemptionFields" type="String" access="global" default="" />
+    <aura:attribute name="redemptionItemFields" type="String" access="global" default="" />
+    <aura:attribute name="showPayouts" type="Boolean" access="global" />
+    <aura:attribute name="payoutFields" type="String" access="global" default="" />
+    <aura:attribute name="payoutItemFields" type="String" access="global" default="" />
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="transactionsLabel" />
+    <aura:attribute type="String" name="badgesLabel" />
+    <aura:attribute type="String" name="payoutsLabel" />
+    <aura:attribute type="String" name="redemptionsLabel" />
+
+
+    <aura:attribute type="Boolean" name="hasConsents" default="false" />
+
+    <aura:attribute type="String" name="title" />
+    <aura:attribute type="Boolean" name="viewMode" default="true" />
+    <aura:attribute type="Boolean" name="showConsents" default="false" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler event="c:UpdateMemberEvent" action="{!c.updateMember}" />
+
+    <!-- INPUT FILE -->
+    <aura:attribute name="imgSrc" type="String" />
+    <aura:attribute name="fileName" type="String" />
+    <aura:attribute name="files" type="Object[]" />
+
+    <aura:if isTrue="{!v.member}">
+        <lightning:card title="">
+            <aura:set attribute="footer">
+                <aura:if isTrue="{!!v.viewMode}">
+                    <lightning:button class="cancel-btn" label="{!$FieloPLT.Cancel}" name="cancel" onclick="{!c.cancelEdit}" variant="neutral" />
+                    <lightning:button class="save-btn" label="{!$FieloPLT.Save}" name="save" onclick="{!c.saveMember}" variant="brand" />
+                </aura:if>
+            </aura:set>
+            
+            <aura:if isTrue="{!and(v.showMember, v.showMemberFields)}">
+                <div class="memberInfo">
+                    <aura:iteration items="{!v.fieldset}" var="field">
+                        <aura:if isTrue="{!and(field.apiName == 'FieloPLT__ExternalURL__c', not(v.member.FieloPLT__ExternalURL__c))}">
+                            <img src="{!$FieloPLT.Resource.FieloPlt_Salesforce + '/images/member.png'}" />
+                            <aura:set attribute="else">
+                                <c:OutputField record="{!v.member}" type="{!field.type}" fieldName="{!field.apiName}" class="mainfield" />
+                            </aura:set>
+                        </aura:if>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+
+            <lightning:tabset>
+                <lightning:tab label="{!$FieloPLT.Profile}">
+                    <div class="slds-p-around--large">
+                        <h3 class="slds-section__title slds-p-left--large">
+                            <span class="slds-truncate" title="Section Title">
+                                <aura:if isTrue="{!!v.viewMode}">{!$FieloPLT.Edit + ' '} </aura:if> {!$FieloPLT.Profile}</span>
+                        </h3>
+                        <aura:if isTrue="{!v.viewMode}">
+                            <lightning:button class="profile-btn slds-m-right--large" label="{!$FieloPLT.Edit}" name="edit" onclick="{!c.editMember}" variant="neutral"
+                            />
+                            <aura:if isTrue="{!v.hasConsents}">
+                                <lightning:button class="profile-btn slds-m-right--large" label="{!$FieloPLT.UpdatePreferences}" name="{!$FieloPLT.UpdatePreferences}" onclick="{!c.manageConsents}" variant="neutral"
+                                />
+                            </aura:if>
+                        </aura:if>
+                        <aura:if isTrue="{!v.showMember}">
+                            <aura:if isTrue="{!v.viewMode}">
+                                <div class="view-mode">
+                                        <lightning:layout multipleRows="true">
+                                        <aura:iteration items="{!v.fieldsetEdit}" var="field">
+                                            <lightning:layoutItem class="item" padding="around-large" size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3">
+                                                <aura:if isTrue="{!field.showLabel}">
+                                                    <label class="slds-form-element__label inline">{!field.attributes.label}</label>
+                                                </aura:if>
+                                                <div class="slds-form-element__value">
+                                                    <c:OutputField record="{!v.member}" type="{!field.type}" fieldName="{!field.apiName}" />
+                                                </div>
+                                            </lightning:layoutItem>
+                                        </aura:iteration>
+                                    </lightning:layout>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="edit-mode">
+                                        <lightning:layout multipleRows="true">
+                                            <aura:iteration items="{!v.fieldsetEdit}" var="field">
+                                                <lightning:layoutItem class="item" padding="around-large" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3">
+                                                    <c:InputField 
+                                                        metadata="{!field.attributes}"
+                                                        field="{!field}" 
+                                                        value="{!field.value}" 
+                                                        type="{!field.attributes.inputType}" 
+                                                        fieldName="{!field.attributes.name}"
+                                                        picklistEntries="{!field.picklistentries}"
+                                                        label="{!field.attributes.label}" />
+                                                </lightning:layoutItem>
+                                            </aura:iteration>
+                                            <lightning:layoutItem class="item" padding="around-large" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3">
+                                                <lightning:input aura:id="fileInput" type="file" name="file" multiple="false" accept="image/*;capture=camera" files="{!v.files}"
+                                                    onchange="{!c.readFile}" label="Photo (max. 2MB):" />                                                    
+                                            </lightning:layoutItem>
+                                            <aura:if isTrue="{!v.imgSrc.length > 0}">
+                                                    <lightning:layoutItem class="item" padding="around-large" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3">
+                                                    <img class="imageUpload" src="{!v.imgSrc}" />
+                                                </lightning:layoutItem>
+                                            </aura:if>
+                                        </lightning:layout>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </aura:if>
+                    </div>
+                </lightning:tab>
+                <aura:if isTrue="{!v.showTransactions}">
+                    <lightning:tab label="{!v.transactionsLabel}">
+                        <div class="slds-p-around--large">
+                            <h3 class="slds-section__title slds-p-left--large block">
+                                <span class="slds-truncate" title="Section Title">{!v.transactionsLabel}</span>
+                            </h3>
+                            <div class="slds-p-around--large">
+                                <c:MyTransactions titleValue="" showDateFilter="false" fields="{!v.transactionFields}" recordDetailFieldset="" member="{!v.member}"
+                                    filterFields="" enableSortBy="false" sortByFields="" />
+                            </div>
+                        </div>
+                    </lightning:tab>
+                </aura:if>
+                <aura:if isTrue="{!v.showRedemptions}">
+                    <lightning:tab label="{!v.redemptionsLabel}">
+                        <div class="slds-p-around--large">
+                            <h3 class="slds-section__title slds-p-left--large block">
+                                <span class="slds-truncate" title="Section Title">{!v.redemptionsLabel}</span>
+                            </h3>
+                            <div class="slds-p-around--large">
+                                <c:MyRedemptions titleValue="" layout="AccordionDetail" columns="2" showFilter="false" filterFields="" fields="{!v.redemptionFields}"
+                                    recordDetailFieldset="" showRedemptionItemRelated="true" redemptionItemRelatedFields="{!v.redemptionItemFields}"
+                                    member="{!v.member}" enableSortBy="false" sortByFields=""/>
+                            </div>
+                        </div>
+                    </lightning:tab>
+                </aura:if>
+                <aura:if isTrue="{!v.showBadges}">
+                    <lightning:tab label="{!v.badgesLabel}">
+                        <div class="slds-p-around--large">
+                            <h3 class="slds-section__title slds-p-left--large block">
+                                <span class="slds-truncate" title="Section Title">{!v.badgesLabel}</span>
+                            </h3>
+                            <div class="slds-p-around--large">
+                                <c:MyBadges enableSortBy="false" sortByFields="" showFilter="false" filterFields="" cssClass="profileBadges" memberBadgesTitle="" memberBadgesLayout="Grid" memberBadgesColumns="2" paging="false"
+                                    quantity="" memberBadgesFields="{!v.badgeFields}" showAchievableBadges="true" showLostBadges="true"
+                                    showExpiredBadges="true" member="{!v.member}" />
+                            </div>
+                        </div>
+                    </lightning:tab>
+                </aura:if>
+                <aura:if isTrue="{!v.showPayouts}">
+                    <lightning:tab label="{!v.payoutsLabel}">
+                        <div class="slds-p-around--large">
+                            <h3 class="slds-section__title slds-p-left--large block">
+                                <span class="slds-truncate" title="Section Title">{!v.payoutsLabel}</span>
+                            </h3>
+                            <div class="slds-p-around--large">
+                                <c:MyPayouts titleValue="" showFilter="false" filterFields=""
+                                    fields="{!v.payoutFields}"
+                                    member="{!v.member}" enableSortBy="false" sortByFields="" />
+                            </div>
+                        </div>
+                    </lightning:tab>
+                </aura:if>
+            </lightning:tabset>
+        </lightning:card>
+
+        <c:Spinner />
+        
+        <!--<c:ManageConsents mode="profile" recordId="{!v.member.Id}" show="{!v.showConsents}" manageConsentsEvent="{!c.hasConsents}" />-->
+        
+    </aura:if>
+
+</aura:component>

@@ -22,7 +22,7 @@
                 var type = title.type.toLowerCase();
                 var value = title.value;
                 if (type == 'label') {
-                    var label = '$Label.' + value;
+                    var label = '$FieloPLT.Label.' + value;
                     titleValue = $A.get(label);
                     component.set('v.title', titleValue);
                 } else {
@@ -80,7 +80,7 @@
                     var titleType = listview.title.type.toLowerCase();
                     var titleValue = listview.title.value;
                     if (titleType == 'label') {
-                        var titleLabel = '$Label.' + titleValue;
+                        var titleLabel = '$FieloPLT.Label.' + titleValue;
                         listview.titleValue = $A.get(titleLabel);
                     } else {
                         listview.titleValue = titleValue;
@@ -115,14 +115,14 @@
             component.set(
                 'v.overrideHelptext',
                 {
-                    'fieloplt__status__c': $A.get('$Label.c.FilterPayoutStatusHelpText')
+                    'fieloplt__status__c': $A.get('$FieloPLT.Label.c.FilterPayoutStatusHelpText')
                 }
             );
 
 
             var defaultPicklistOptions = {
                 'FieloPLT__Status__c': {
-                    'defaultPicklistValue': $A.get("$Label.c.All")
+                    'defaultPicklistValue': $A.get("$FieloPLT.Label.All")
                 }
             };
 

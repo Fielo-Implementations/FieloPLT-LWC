@@ -1,0 +1,28 @@
+.THIS .modal-close-btn{
+    border: none;
+    padding: 0;
+}
+.THIS .modal-close-btn .slds-button__icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.THIS .consent-item{
+    padding: 10px 0;
+}
+
+.THIS .description {
+    padding-left: 25px;
+}
+
+.THIS .fielo-checkbox{
+    float: left;
+}
+
+.THIS .consents-title{
+    font-size: 16px;    
+    color: #54698d;
+    letter-spacing: .0625rem;    
+    text-align: left;
+}
+    

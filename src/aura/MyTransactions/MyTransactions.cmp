@@ -71,7 +71,7 @@
 
     <aura:if isTrue="{!v.showTransactions}">
         <aura:iteration var="listview" items="{!v.listviews}">
-            <FieloPLT:TransactionList aura:id="transactionList" member="{!v.member}" recordDetailConfig="{!listview.recordDetail}" layout="{!listview.layout}"
+            <c:TransactionList aura:id="transactionList" member="{!v.member}" recordDetailConfig="{!listview.recordDetail}" layout="{!listview.layout}"
                 quantity="{!listview.quantity}" condition="{!listview.condition}" paging="{!listview.paging}" fieldset="{!listview.fieldset}"
                 title="{!listview.title}" dynamicFilter="{!v.dynamicFilter}" orderBy="{!v.orderBy}" />
         </aura:iteration>

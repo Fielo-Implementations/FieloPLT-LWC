@@ -1,0 +1,13 @@
+.THIS.paginator {
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+.THIS.paginator .paginatorBtn.disabled{
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.THIS.paginator .paginatorBtn .slds-button__icon{
+    margin-right: 0;
+}

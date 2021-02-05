@@ -28,7 +28,7 @@
             var type = title.type.toLowerCase();
             var value = title.value;
             if(type == 'label'){
-                var label = '$Label.' + value;
+                var label = '$FieloPLT.Label.' + value;
                 titleValue = $A.get(label);                
             }else{
                 titleValue = value;                
@@ -173,7 +173,7 @@
         if(checked){
             helper.registration(component, event, helper);
         }else{
-            var errorMsg = $A.get("$Label.c.AgreementAccept");
+            var errorMsg = $A.get("$FieloPLT.Label.AgreementAccept");
             toastEvent.setParams({
                 "title": errorMsg,
                 "message": " ",

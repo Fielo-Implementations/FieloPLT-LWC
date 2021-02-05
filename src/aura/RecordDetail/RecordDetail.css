@@ -1,0 +1,80 @@
+.THIS .modal-close-btn {
+  border: none;
+  padding: 0;
+}
+
+.THIS .modal-close-btn .slds-button__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.THIS .slds-tabs__nav-scroller {
+  background: #E6EEF1;
+}
+
+.THIS .slds-tabs_default__nav .slds-tabs_default__item:first-child {
+  margin-left: auto;
+}
+
+.THIS .slds-tabs_default__nav .slds-tabs_default__item:last-child {
+  margin-right: auto;
+}
+
+.THIS .slds-tabs_default__link,
+.THIS .slds-active .slds-tabs_default__link {
+  color: #54698D;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.THIS .title {
+  color: #54698D;
+  text-align: left;
+  font-size: 26px;
+  padding-bottom: 10px;
+}
+
+.THIS .slds-tabs_default__content {
+  color: #54698D;
+  font-size: 14px;
+}
+
+.THIS .slds-section__title {
+  font-weight: 700;
+}
+
+.THIS .footer-button {
+  float: right;
+  margin-left: 10px;
+}
+
+.THIS .footer-button .FieloPLTSubcomponent {
+  padding-bottom: 0;
+}
+
+.THIS.slds-modal .fielo-default-view {
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.THIS.slds-modal .slds-modal__header,
+.THIS.slds-modal .fielo-data-content {
+  color: #54698D;
+}
+
+.THIS.slds-modal .slds-modal__header {
+  font-size: 20px;
+}
+
+.THIS.slds-modal .fielo-data-content {
+  font-size: 14px;
+}
+
+.THIS.slds-modal .fielo-default-view .fielo-data-content div:first-child {
+  font-weight: bold;
+}
+
+.THIS.slds-modal .fielo-default-view .fielo-data-content .slds-form-element__label {
+  display: none;
+}

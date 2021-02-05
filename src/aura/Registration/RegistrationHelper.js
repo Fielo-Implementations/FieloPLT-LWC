@@ -117,7 +117,7 @@
             if (component.isValid() && state === "SUCCESS") {
                 var response = response.getReturnValue();                
                 toastEvent.setParams({
-                    "title": $A.get("$Label.c.RegistrationSuccessful"),
+                    "title": $A.get("$FieloPLT.Label.RegistrationSuccessful"),
                     "message": " ",
                     "type": "success"
                 });
@@ -201,7 +201,7 @@
             if (component.isValid() && state === "SUCCESS") {
                 //success
                 var programData = JSON.parse(response.getReturnValue());
-                var label = $A.get('$Label.c.View');
+                var label = $A.get('$FieloPLT.Label.View');
                 label += ' ' + programData.label;
                 var btn = {
                     "type": "subcomponent",

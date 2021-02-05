@@ -2,7 +2,7 @@
     <aura:attribute name="error" type="String" />
     <div class="slds-p-top--small slds-p-bottom--small">
         <lightning:icon iconName="utility:error" size="medium" alternativeText="{!$FieloPLT.Label.c.SomethingWentWrong}" class="error-icon" />
-        <h3 class="slds-p-left--small inline">{!$FieloPLT.Label.c.SomethingWentWrong}</h3>
+        <h3 class="slds-p-left--small inline">{!$FieloPLT.Label.SomethingWentWrong}</h3>
         <div class="error-msg">
             {!v.error}
         </div>
