@@ -1,0 +1,144 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes"
+    controller="CommunityRegistrationController" access="global">
+
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="titleValueRegistration" access="global" />
+    <aura:attribute type="String" name="titleValueLogin" access="global" />
+    <aura:attribute type="String" name="fields" access="global" />
+    <aura:attribute name="startUrl" type="String" access="global" />
+    <aura:attribute name="regConfirmUrl" type="String" default="./CheckPasswordResetEmail" access="global" />
+    <aura:attribute name="program" type="String" access="global" />
+    <aura:attribute name="includePasswordField" type="Boolean" default="false" description="Whether to include password"
+        access="global" />
+    <aura:attribute name="showLogin" type="Boolean" default="false" description="Show Login" access="global" />
+    <!-- DESIGN ATTRIBUTES -->
+
+    <aura:attribute type="String" name="titleValue" />
+    <aura:attribute type="String" name="emailLabel" />
+
+    <aura:attribute name="defaultFieldset" type="String"
+        default='[{"apiName": "Name","label": {"type":"label", "value":"FieloPLT.FirstName"},"required": true,"type": "text", "showLabel": true}, {"apiName": "LastName","label": {"type":"label", "value": "FieloPLT.LastName"},"required": true,"type": "text", "showLabel": true}, {"apiName": "FieloPLT__Email__c","label": {"type":"default"},"required": true,"type": "text", "showLabel": true}]' />
+    <aura:attribute name="defaultFields" type="String"
+        default='{"Name":true,"LastName":true,"FieloPLT__Email__c":true}' />
+    <aura:attribute name="titleRegistration" type="String" access="private" />
+    <aura:attribute name="titleLogin" type="String" access="private" />
+    <aura:attribute name="labelValues" type="sObject" access="private" />
+    <aura:attribute name="showTitle" type="Boolean" default="false" access="private" />
+
+    <aura:attribute name="showForm" type="Boolean" default="false" access="private" />
+
+    <aura:attribute name="extraFields" type="sObject[]" access="private" />
+    <aura:attribute name="extraFieldsValues" type="sObject" access="private" />
+    <aura:attribute name="password" type="String" access="private" />
+    <aura:attribute name="confirmPassword" type="String" access="private" />
+    <aura:attribute name="requiredFields" type="String[]" access="private" />
+
+    <aura:attribute name="loginPassword" type="String" access="private" />
+    <aura:attribute name="loginUser" type="String" access="private" />
+
+    <aura:registerEvent name="toggleSpinnerEvent" type="c:ToggleSpinnerEvent" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+    <!-- AGREEMENT -->
+    <aura:attribute name="agreement" type="sObject" />
+    <aura:attribute name="hasAgreement" type="Boolean" />
+    <aura:attribute name="agreementChecked" type="Boolean" />
+    <aura:attribute name="showAgreement" type="Boolean" default="false" />
+    <!-- ESTE PARAMETRO SE AGREGA PARA PODER PEDIRLE AL COMPONENTE AGREEMENT QUE NOS DIGA SI EL PROGRAM TIENE AGREEMENT, CUANDO EL COMPONENTE COMMUNITY REGISTRATION SE INICIALIZA -->
+    <aura:attribute name="programId" type="String" access="private" />
+    <!-- ESTE PARAMETRO SE AGREGA PARA PODER PEDIRLE AL COMPONENTE AGREEMENT QUE NOS DIGA SI EL PROGRAM TIENE AGREEMENT, CUANDO EL COMPONENTE COMMUNITY REGISTRATION SE INICIALIZA -->
+    <!-- AGREEMENT -->
+    <aura:attribute name="showConsents" type="Boolean" />
+
+    <!-- ERROR -->
+    <aura:attribute name="showError" type="Boolean" />
+    <aura:attribute name="error" type="String" />
+
+    <c:InlineToast aura:id="inlineToast" />
+    <lightning:layout>
+        <lightning:layoutItem size="{!v.showLogin ? '6' : '12'}" padding="around-large"
+            class="{!v.showLogin ? 'registration-layout' : ''}">
+            <div class="{!v.showLogin ? 'border registration-container' : 'registration-container'}">
+                <aura:if isTrue="{!v.titleRegistration.length > 0}">
+                    <h3 class="registration-title">{!v.titleRegistration}</h3>
+                </aura:if>
+                <div>
+                    <aura:iteration items="{!v.extraFields}" var="field">
+                        <div class="inputContainer">
+                            <c:InputField aura:id="extraField" type="{!field.attributes.inputType}"
+                                fieldName="{!field.attributes.name}" picklistEntries="{!field.picklistentries}"
+                                label="{!field.attributes.label}" required="{!field.attributes.required}"
+                                defaultValue="{!if(empty(field.attributes.defaultValue),'',field.attributes.defaultValue)}"
+                                metadata="{!field.attributes}" defaultPicklistValue="{!$FielPLT.Label.c.SelectAnOption}" helptext="{!field.attributes.helpText}" />
+                        </div>
+                    </aura:iteration>
+
+                    <aura:if isTrue="{!v.includePasswordField}">
+                        <div class="inputContainer">
+                            <lightning:input type="password" required="true" value="{!v.password}"
+                                label="{!$FieloPLT.Label.c.Password}" name="{!$FieloPLT.Label.c.Password}"
+                                class="registration-input" />
+                        </div>
+                        <div class="inputContainer">
+                            <lightning:input type="password" required="true" value="{!v.confirmPassword}"
+                                label="{!$FieloPLT.Label.site.confirm_password}" name="{!$FieloPLT.Label.site.confirm_password}"
+                                class="registration-input" />
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.hasAgreement}">
+                        <div class="inputContainer">
+                            <lightning:input class="agreement-input" checked="{!v.agreementChecked}" type="toggle"
+                                label="" name="input1" messageToggleActive="" messageToggleInactive="" />
+                            <label class="agreement-label">
+                                {!$FieloPLT.Label.c.AgreeTo} <a onclick="{!c.showAgreement}" class="terms">
+                                    {!$FieloPLT.Label.c.TermsAndConditions}</a>
+                            </label>
+                        </div>
+                    </aura:if>
+                    <!--<aura:if isTrue="{!v.showConsents}">
+                        <c:ManageConsents aura:id="consents" recordId="{!v.programId}" mode="registration" />
+                    </aura:if>-->
+                    <div>
+                        <lightning:button variant="brand" label="{!$FieloPLT.Label.c.SignUp}"
+                            onclick="{!c.handleSelfRegister}" class="registration-btn" />
+                    </div>
+                    <c:ProgramAgreement aura:id="programAgreement" hasAgreement="{!c.toggleAgreement}"
+                        checkAgreement="{!c.submitAgreement}" showAgreement="{!v.showAgreement}"
+                        program="{!v.programId}" registration="true" showCheckbox="false" />
+                </div>
+            </div>
+
+        </lightning:layoutItem>
+        <aura:if isTrue="{!v.showLogin}">
+            <lightning:layoutItem size="6" padding="around-large" class="login-layout">
+                <div class="login-container">
+                    <aura:if isTrue="{!v.titleLogin.length > 0}">
+                        <h3 class="registration-title">{!v.titleLogin}</h3>
+                    </aura:if>
+                    <div>
+                        <div class="inputContainer">
+                            <lightning:input type="text" required="true" value="{!v.loginUser}"
+                                label="{!v.emailLabel}" name="{!v.emailLabel}" class="registration-input" />
+                        </div>
+                        <div class="inputContainer">
+                            <lightning:input type="password" required="true" value="{!v.loginPassword}"
+                                label="{!$FieloPLT.Label.c.Password}" name="{!$FieloPLT.Label.c.Password}"
+                                class="registration-input" />
+                        </div>
+                        <div>
+                            <lightning:button variant="brand" label="{!$FieloPLT.Label.c.Login}" onclick="{!c.handleLogin}"
+                                class="registration-btn" />
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+    </lightning:layout>
+
+    <aura:if isTrue="{!v.showError}">
+        <c:Error error="{!v.error}" />
+    </aura:if>
+
+    <c:Spinner />
+</aura:component>

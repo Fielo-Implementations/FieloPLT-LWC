@@ -1,4 +1,4 @@
-<design:component label="Fielo - Join Program">
+<design:component label="FieloPS - Join Program">
     <design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component."
         default="Join our programs" />
     <design:attribute label="Layout" name="layout" description="Choose 'Table' to display programs in list format or 'Grid' to display them in tile format."

@@ -1,0 +1,18 @@
+<design:component label="FieloPS - Registration">        
+    <design:attribute label="Registration Title" name="titleValueRegistration" description="Enter the title to be displayed above the registration form." default="Join now"
+                      />
+    <design:attribute label="Show Login Form" name="showLogin" description="Check this box to display a login form alongside the registration form." default="true"
+                      />
+    <design:attribute label="Login Title" name="titleValueLogin" description="Enter the title to be displayed above the login form, if applicable." default="Already a member?"
+                      />                      
+    <design:attribute label="Program" name="program" datasource="apex://FieloPLT.RegistrationProgramPicklist" description="Select the program new members will enroll in." required="true"
+                      />    
+    <design:attribute label="Extra Fields" name="fields" description="Enter the API names of any additional member fields you would like to include on the registration form, separated by commas."
+                      />
+    <design:attribute label="Include Password Field" name="includePasswordField" description="Check this box to have new members create a password on this screen (one-step registration), or leave unchecked for two-step registration." default="false"
+                      />
+    <design:attribute label="One-Step Registration URL" name="startUrl" description="If using one-step registration, enter the URL that new members will be directed to upon successful registration. If blank, members will be directed to the Home page."
+                      />
+    <design:attribute label="Two-Step Registration URL" name="regConfirmUrl" description="If using two-step registration, enter the URL that new members will be directed to for next steps. By default, members will be directed to the Check Password page."
+                      />    
+</design:component>

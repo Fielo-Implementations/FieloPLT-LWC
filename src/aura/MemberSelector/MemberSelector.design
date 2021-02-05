@@ -1,4 +1,4 @@
-<design:component label="Fielo - Member Selector">    
+<design:component label="FieloPS - Member Selector">    
     <design:attribute label="Member Fields" name="fields" description="Enter the API names of the fields you want to be displayed, separated by commas." 
                       default='FieloPLT__Points__c'
                       />

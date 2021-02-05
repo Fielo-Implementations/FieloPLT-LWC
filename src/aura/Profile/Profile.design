@@ -1,4 +1,4 @@
-<design:component label="Fielo - Profile">
+<design:component label="FieloPS - Profile">
 	<design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component." default="My Profile"
                     />
     <design:attribute label="Show Member Information" name="showMemberFields" description="Check this box in order to display member information at the top of the component." default="True"

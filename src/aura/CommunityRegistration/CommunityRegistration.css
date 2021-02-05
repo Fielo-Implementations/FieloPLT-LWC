@@ -1,0 +1,45 @@
+.THIS .registration-title{
+    font-size: 20px;
+    line-height: 1.25;
+    color: #54698D;    
+    letter-spacing: .0625rem;
+    padding: .75rem 0;
+    text-align: left;
+}
+
+.THIS .terms {
+    padding-left: 5px;
+}
+
+.THIS .slds-form-element__label{
+	color: #54698D;
+    font-size: 13px;
+}
+
+.THIS .slds-input{
+    padding: 5px;
+}
+
+.THIS .inputContainer {
+    padding-bottom: 20px;
+}
+
+.THIS .agreement-label{
+    display: inline-block;
+    position: relative;
+    top: -8px;
+    left: 11px;
+}
+
+.THIS .agreement-input{
+    display: inline-block;
+}
+
+.THIS .registration-container.border{
+    border-right: 1px solid #D8DDE6;
+    padding-right: 24px;
+}
+
+.THIS .registration-layout{
+    padding-right: 0;
+}
