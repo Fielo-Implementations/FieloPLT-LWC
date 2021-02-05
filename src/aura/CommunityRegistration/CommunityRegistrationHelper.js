@@ -33,7 +33,7 @@
         })            
         component.set('v.requiredFields', requiredFields);
         //component.set('v.fieldset', fieldset);
-        var objectName = 'Member__c';
+        var objectName = 'FieloPLT__Member__c';
         var fieldsAction = component.get('c.getFields');
         fieldsAction.setParams({
             'objectName': objectName,
